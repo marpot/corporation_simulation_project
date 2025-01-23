@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:14
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: corporation_user
+      POSTGRES_PASSWORD: 321meme321
+      POSTGRES_DB: corporation_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  web:
+    build:
+      context: .  # Dodaj kontekst budowania obrazu (bieżący katalog)
+    container_name: fastapi_app
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://corporation_user:321meme321@db:5432/corporation_db
+    volumes:
+      - .:/app  # Poprawna ścieżka do zamontowania lokalnego katalogu w kontenerze
+    # Komenda uruchamiająca aplikację została przeniesiona do Dockerfile
+
+    # Opcje logowania
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: 3
+
+volumes:
+  postgres_data:
