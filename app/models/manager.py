@@ -10,4 +10,4 @@ class Manager(Base):
     age = Column(Integer, nullable=False)
     salary = Column(Integer, nullable=False)
     
-    employees = relationship("Employee", back_populates="managers")
+    employees = relationship("Employee", back_populates="manager")
