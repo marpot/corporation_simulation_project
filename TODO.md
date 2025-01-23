@@ -1,6 +1,4 @@
-Dostosowanie Twojego planu do aplikacji oraz jego optymalizacja wymaga uwzględnienia aktualnego stanu projektu, w tym wprowadzenia relacji w bazie danych, rozwoju backendu oraz wprowadzenia najlepszych praktyk. Oto zoptymalizowany plan, który będzie lepiej pasował do Twojej aplikacji:
 
----
 
 ### **I. Rozwój podstawowych umiejętności z programowania obiektowego (OOP)**
 
