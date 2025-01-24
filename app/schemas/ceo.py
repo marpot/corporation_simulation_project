@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import List
 
 class CEOBasic(BaseModel):
 	name: str
@@ -10,6 +11,8 @@ class CEOCreate(CEOBasic):
 
 class CEOOut(CEOBasic):
 	id: int
+	departments: List['Department'] = []
+	employees: List['EmployeeOut'] = []
 
 	class Config:
-		orm_mode = True # Pozwala na konwersję obiektów sqlalchemy do danych JSON
+		orm_mode = True

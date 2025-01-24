@@ -3,7 +3,7 @@ from sqlalchemy.orm import relationship
 from app.database import Base
 from app.models.ceo import Ceo
 from app.models.manager import Manager
-from app.models.department import Department
+
 
 class Employee(Base):
     __tablename__ = "employees"
@@ -13,6 +13,8 @@ class Employee(Base):
     age = Column(Integer, nullable=False)
     salary = Column(Integer, nullable=False)
 
+    type = Column(String, nullable=False)
+
     ceo_id = Column(Integer, ForeignKey('ceos.id'))
     ceo = relationship(Ceo, back_populates="employees")
 
@@ -20,6 +22,6 @@ class Employee(Base):
     manager = relationship(Manager, back_populates="employees")
 
     department_id = Column(Integer, ForeignKey('departments.id'))
-    department = relationship(Department, back_populates="employees")
+    department = relationship("Department", back_populates="employees")
 
     

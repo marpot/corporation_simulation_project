@@ -1,7 +1,8 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, Session
 from sqlalchemy.ext.declarative import declarative_base
 from app.database import Base
+
 
 class Department(Base):
 	__tablename__ = "departments"
@@ -12,7 +13,7 @@ class Department(Base):
 	employees = relationship("Employee", back_populates="department")
 
 	#TODO:
-	def add_employee():
+	def add_employee(self, session: Session):
 		pass
 	
 	#TODO:

@@ -1,5 +1,6 @@
 from pydantic import BaseModel, validator
 from typing import Optional
+from .ceo import CEOOut
 
 class EmployeeBase(BaseModel):
     name: str
@@ -41,7 +42,9 @@ class EmployeeCreate(EmployeeBase):
 
 class EmployeeOut(EmployeeBase):
     id: int
+    type: str
     department_name: Optional[str] = None
+    ceo: Optional[CEOOut] = None
     
     class Config:
         from_attributes = True
@@ -50,4 +53,7 @@ class EmployeeOut(EmployeeBase):
         if self.department_id is not None:
             return department_mapping.get(self.department_id, "Unkown")
         return "No Department"
+        
+class PolymorphicEmployeeOut(EmployeeOut):
+    type: str
 

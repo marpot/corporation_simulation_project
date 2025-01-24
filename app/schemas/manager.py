@@ -1,5 +1,8 @@
 from pydantic import BaseModel
 from typing import Optional
+from typing import List
+from app.schemas.employee import EmployeeOut
+
 
 class ManagerBase(BaseModel):
     name: str
@@ -12,6 +15,7 @@ class ManagerCreate(ManagerBase):
 
 class ManagerOut(ManagerBase):
     id: int
+    employees: List[EmployeeOut] = []
     
     class Config:
         orm_mode = True

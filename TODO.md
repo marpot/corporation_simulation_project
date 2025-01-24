@@ -8,8 +8,8 @@
    - ❌ Stwórz klasę `Project` z odpowiednimi atrybutami i metodami, umożliwiającą przypisywanie pracowników do projektów (to będzie rozszerzenie później, zależne od rozwoju aplikacji).
 
 2. **Dziedziczenie i klasy bazowe:**
-   - ✔️ Stwórz klasę `Employee` oraz klasy dziedziczące `Manager` i `Ceo`.
-   - ✔️ Zaimplementuj metodę `get_role()` w każdej klasie (`Ceo`, `Manager`, `Employee`), aby zwracała odpowiednią rolę.
+   - ✔️ Stwórz klasę `Employee` oraz klasy `Manager` i `Ceo` z relacjami pomiędzy nimi
+   - ❌ Zaimplementuj metodę `get_role()` w każdej klasie (`Ceo`, `Manager`, `Employee`), aby zwracała odpowiednią rolę.
    
 3. **Polimorfizm i metody wirtualne:**
    - ✔️ Zaimplementuj polimorfizm w metodzie `get_role()` w klasach `Ceo`, `Manager`, `Employee`.

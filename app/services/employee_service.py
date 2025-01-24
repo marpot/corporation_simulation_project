@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from app.models.employee import Employee
-from app.schemas.employee import EmployeeCreate, EmployeeOut
+from app.schemas.employee import EmployeeCreate, EmployeeOut, PolymorphicEmployeeOut
 from fastapi import HTTPException
 from typing import List
 from app.models.ceo import Ceo
@@ -9,7 +9,7 @@ class EmployeeService:
     def __init__(self, db: Session):
         self.db = db
 
-    def add_employee(self, employee_create: EmployeeCreate) -> EmployeeOut:
+    def add_employee(self, employee_create: EmployeeCreate) -> PolymorphicEmployeeOut:
 
         ceo = self.db.query(Ceo).filter(Ceo.id == employee_create.ceo_id).first()
         if not ceo:
@@ -25,20 +25,47 @@ class EmployeeService:
         self.db.commit()
         self.db.refresh(new_employee)
 
-        return EmployeeOut.from_orm(new_employee)
+        return PolymorphicEmployeeOut(
+            id=new_employee.id,
+            name=new_employee.name,
+            age=new_employee.age,
+            salary=new_employee.salary,
+            ceo_id=new_employee.ceo_id,
+            manager_id=new_employee.manager_id,
+            department_id=new_employee.department_id,
+            type=new_employee.type  # Pobierz typ pracownika
+        )
 
-    def list_employees(self) -> List[EmployeeOut]:
+    def list_employees(self) -> List[PolymorphicEmployeeOut]:
         """
         Zwraca listę wszystkich pracowników z bazy danych.
         """
         employees = self.db.query(Employee).all()
-        return [EmployeeOut.from_orm(emp) for emp in employees]
+        return [
+        PolymorphicEmployeeOut(
+            id=emp.id,
+            name=emp.name,
+            age=emp.age,
+            salary=emp.salary,
+            ceo_id=emp.ceo_id,
+            manager_id=emp.manager_id,
+            department_id=emp.department_id,
+            type=emp.type  # Pole `type` z modelu Employee
+        )
+        for emp in employees
+        ]
 
-    def get_employee(self, name: str) -> EmployeeOut:
-        """
-        Zwraca szczegóły pracownika na podstawie jego nazwy, jeśli istnieje.
-        """
+    def get_employee(self, name: str) -> PolymorphicEmployeeOut:
         employee = self.db.query(Employee).filter(Employee.name == name).first()
         if employee:
-            return EmployeeOut.from_orm(employee)
+            return PolymorphicEmployeeOut(
+                id=employee.id,
+                name=employee.name,
+                age=employee.age,
+                salary=employee.salary,
+                ceo_id=employee.ceo_id,
+                manager_id=employee.manager_id,
+                department_id=employee.department_id,
+                type=employee.type  # Pobierz typ pracownika
+            )
         raise HTTPException(status_code=404, detail="Employee not found")
