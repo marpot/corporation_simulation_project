@@ -1,6 +1,6 @@
 name: Build and Publish Docker Image
 
-# Workflow będzie uruchamiany na push do gałęzi "master"
+# Workflow uruchomi się na push do gałęzi "master"
 on:
   push:
     branches:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # Workflow uruchomi się na maszynie Ubuntu
+    runs-on: ubuntu-24.04  # Używamy wersji Ubuntu 24.04
 
     steps:
     # 1. Checkout - pobieranie kodu z repozytorium
