@@ -1,0 +1,33 @@
+name: Build and Publish Docker Image
+
+# Workflow będzie uruchamiany na push do gałęzi "master"
+on:
+  push:
+    branches:
+      - master  # Workflow uruchomi się tylko wtedy, gdy będzie push do gałęzi "master"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Workflow uruchomi się na maszynie Ubuntu
+
+    steps:
+    # 1. Checkout - pobieranie kodu z repozytorium
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    # 2. Logowanie do GitHub Container Registry (GHCR)
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v2
+      with:
+        username: ${{ github.actor }}  # Używa GitHub username
+        password: ${{ secrets.GITHUB_TOKEN }}  # GitHub token, dostępny automatycznie w środowisku GitHub Actions
+
+    # 3. Budowanie obrazu Docker
+    - name: Build Docker image
+      run: |
+        docker build -t ghcr.io/${{ github.repository }}:latest .
+
+    # 4. Wypychanie obrazu do GitHub Container Registry (GHCR)
+    - name: Push Docker image to GHCR
+      run: |
+        docker push ghcr.io/${{ github.repository }}:latest
