@@ -1,4 +1,4 @@
-
+Testowy commit
 
 ### **I. Rozwój podstawowych umiejętności z programowania obiektowego (OOP)**
 
