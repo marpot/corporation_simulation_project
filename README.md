@@ -75,7 +75,7 @@ This project uses Docker and Docker Compose for containerized deployment.
 
 1. **Clone the repository**:
    ```bash
-   git clone (https://github.com/marpot/corporation_simulation_project.git)
+   git clone https://github.com/marpot/corporation_simulation_project.git
    cd <project_directory>
    ```
 
