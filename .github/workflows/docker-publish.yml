@@ -3,27 +3,26 @@ name: Build and Publish Docker Image
 on:
   push:
     branches:
-      - master  
+      - master  # Workflow uruchomi się tylko wtedy, gdy będzie push do gałęzi "master"
 
 jobs:
   build:
-    runs-on: ubuntu-24.04  # Używamy wersji Ubuntu 24.04
+    runs-on: ubuntu-latest  # Używamy wersji Ubuntu, która jest aktualnie dostępna
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    -name: Logout from Docker Hub
+    - name: Logout from Docker Hub
       run: |
-        docker logout
+        docker logout  # Wyczyść ewentualne dane logowania do Docker Hub
 
     - name: Login to GitHub Container Registry
       uses: docker/login-action@v2
       with:
-        registry: ghcr.io
-        username: ${{ github.actor }}  
-        password: ${{ secrets.GITHUB_TOKEN }}
-
+        registry: ghcr.io  # Określamy, że logujemy się do GitHub Container Registry
+        username: ${{ github.actor }}  # GitHub username
+        password: ${{ secrets.GITHUB_TOKEN }}  # GitHub token
 
     - name: Build Docker image
       run: |
