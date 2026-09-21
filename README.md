@@ -1,155 +1,62 @@
-# Corporation Management API 🏢
+# Corporation Management System
 
-**REST API for managing a corporation structure, built with FastAPI, PostgreSQL, SQLAlchemy and Alembic.**
+This repository is the monorepo foundation for a corporation management system. The existing FastAPI backend is preserved while directories are reserved for a future React frontend and deployment infrastructure.
 
-This backend project models core organizational entities such as employees, managers, departments and CEOs. It demonstrates layered API architecture, relational persistence, request/response validation, database migrations and containerized local development.
-
-## ✨ Features
-
-- REST endpoints for employees, managers, departments and CEOs
-- Create and retrieve organizational data
-- Pydantic request/response schemas
-- SQLAlchemy database models
-- Service layer for business logic
-- Controller/API layer separated from persistence logic
-- PostgreSQL persistence
-- Alembic database migrations
-- Docker and Docker Compose development environment
-- Multi-stage application Dockerfile
-
-## 🧱 Architecture
+## Repository layout
 
 ```text
-Client
-  │
-  ▼
-FastAPI Controllers
-  │
-  ▼
-Service Layer
-  │
-  ▼
-SQLAlchemy Models
-  │
-  ▼
-PostgreSQL
+.
+├── backend/              # FastAPI application, Alembic, and future pytest suite
+├── frontend/             # Reserved for React + TypeScript + Vite
+├── infrastructure/
+│   ├── kubernetes/       # Reserved for Kubernetes resources
+│   └── helm/             # Reserved for a future Helm chart
+├── .github/workflows/    # Existing automation
+└── docker-compose.yml    # Local backend + PostgreSQL environment
 ```
 
-The project separates API endpoints, validation schemas, database models and business logic instead of placing all behavior in the FastAPI entry point.
+No React application, Kubernetes manifests, or Helm chart has been generated at this stage.
 
-## 🛠 Tech Stack
+## Local development with Docker Compose
 
-**Language:** Python  
-**API:** FastAPI · Uvicorn  
-**Database:** PostgreSQL · SQLAlchemy  
-**Validation:** Pydantic  
-**Migrations:** Alembic  
-**Infrastructure:** Docker · Docker Compose
-
-## 📂 Project Structure
-
-```text
-corporation_simulation_project/
-├── app/
-│   ├── main.py
-│   ├── database.py
-│   ├── base.py
-│   ├── controllers/
-│   ├── models/
-│   ├── schemas/
-│   └── services/
-├── alembic/
-├── alembic.ini
-├── Dockerfile
-├── docker-compose.yml
-├── requirements.txt
-├── .env.example
-└── README.md
-```
-
-## 📡 API Endpoints
-
-### Employees
-
-```text
-POST /employees
-GET  /employees
-GET  /employees/{id}
-```
-
-### CEOs
-
-```text
-POST /ceos
-GET  /ceos
-GET  /ceos/{id}
-```
-
-### Departments
-
-```text
-POST /departments
-GET  /departments
-GET  /departments/{id}
-```
-
-### Managers
-
-```text
-POST /managers
-GET  /managers
-GET  /managers/{id}
-```
-
-FastAPI also provides interactive API documentation when the application is running.
-
-## 🚀 Local Development
-
-### Requirements
-
-- Docker
-- Docker Compose
-
-Clone the repository:
-
-```bash
-git clone https://github.com/marpot/corporation_simulation_project.git
-cd corporation_simulation_project
-```
-
-Create your local environment file from the safe example:
+Copy the environment template and replace its example password:
 
 ```bash
 cp .env.example .env
+docker compose up --build
 ```
 
-Set your own local database password/connection values in `.env`. Do not commit the resulting file.
+The backend is exposed at `http://localhost:8000` by default. Local values in `.env` are ignored by Git.
 
-Build and start the services:
-
-```bash
-docker compose up --build -d
-```
-
-The FastAPI application is available locally on port `8000` and PostgreSQL on port `5432` according to the Docker Compose configuration.
-
-Stop the environment:
+Stop the environment with:
 
 ```bash
 docker compose down
 ```
 
-## 🗄 Database Migrations
+## Backend development
 
-Alembic is included for managing schema changes. Migration configuration is stored in `alembic.ini` and the `alembic/` directory.
+Create a virtual environment outside source control, install the pinned dependencies, and provide `DATABASE_URL`:
 
-## 📌 Project Status
+```bash
+cd backend
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+export DATABASE_URL=postgresql://corporation_user:your_password@localhost:5432/corporation_db
+uvicorn app.main:app --reload
+```
 
-This is a smaller backend portfolio project focused on FastAPI, relational data modeling and Dockerized API development. Compared with the larger full-stack projects in this portfolio, its scope is intentionally limited to backend/API architecture.
+Run database migrations from `backend/`:
 
-A useful next improvement would be adding a comprehensive automated test suite and expanding validation/error-handling coverage.
+```bash
+alembic upgrade head
+```
 
-## 👨‍💻 Author
+Alembic is the schema-management mechanism; application startup does not create tables automatically.
 
-**Marcin Potoczny**  
-[GitHub profile](https://github.com/marpot)
+## Current scope
+
+This cleanup establishes project boundaries and preserves the existing employee API behavior. Authentication, RBAC, projects, dashboards, audit logging, GitHub/NBP integrations, the frontend, and deployment manifests are future work.
+
+See [CLEANUP_REPORT.md](CLEANUP_REPORT.md) for the changes, known issues, and recommended next task.
