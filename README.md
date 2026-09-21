@@ -1,32 +1,167 @@
 # Corporation Management System
 
-This repository is the monorepo foundation for a corporation management system. The existing FastAPI backend is preserved while directories are reserved for a future React frontend and deployment infrastructure.
+Full-stack application for managing company structure, employees, departments, projects, and internal business processes.
 
-## Repository layout
+The project is designed as a practical corporate management platform and as an environment for developing backend, frontend, DevOps, and infrastructure skills using a production-oriented architecture.
+
+## Project Goals
+
+Corporation Management System aims to provide a central place for managing:
+
+* employees and organizational structure,
+* departments and managers,
+* company projects and assignments,
+* roles and permissions,
+* operational data displayed through a management dashboard,
+* external data from GitHub and NBP,
+* employee-to-project matching based on skills and project requirements.
+
+The application is being developed incrementally, with each part kept independently testable and deployable.
+
+## Architecture
+
+```text
+                     ┌──────────────────┐
+                     │   React + TS     │
+                     │     Frontend     │
+                     └────────┬─────────┘
+                              │
+                         REST API
+                              │
+                     ┌────────▼─────────┐
+                     │     FastAPI      │
+                     │     Backend      │
+                     └───────┬──────────┘
+                             │
+              ┌──────────────┼──────────────┐
+              │              │              │
+              ▼              ▼              ▼
+        PostgreSQL       GitHub API       NBP API
+```
+
+The backend follows a layered structure separating API endpoints, database models, schemas, business logic, and external integrations.
+
+## Technology Stack
+
+### Backend
+
+* Python
+* FastAPI
+* SQLAlchemy
+* Pydantic
+* Alembic
+* PostgreSQL
+* Pytest
+
+### Frontend
+
+* React
+* TypeScript
+* Vite
+
+### DevOps & Infrastructure
+
+* Docker
+* Docker Compose
+* Kubernetes
+* Helm
+* GitHub Actions
+
+## Repository Structure
 
 ```text
 .
-├── backend/              # FastAPI application, Alembic, and future pytest suite
-├── frontend/             # Reserved for React + TypeScript + Vite
+├── backend/
+│   ├── alembic/             # Database migrations
+│   ├── app/
+│   │   ├── api/             # REST API endpoints
+│   │   ├── core/            # Application configuration and security
+│   │   ├── db/              # Database configuration
+│   │   ├── integrations/    # External services
+│   │   ├── models/          # SQLAlchemy models
+│   │   ├── schemas/         # Pydantic schemas
+│   │   └── services/        # Business logic
+│   └── tests/
+│
+├── frontend/                # React + TypeScript application
+│
 ├── infrastructure/
-│   ├── kubernetes/       # Reserved for Kubernetes resources
-│   └── helm/             # Reserved for a future Helm chart
-├── .github/workflows/    # Existing automation
-└── docker-compose.yml    # Local backend + PostgreSQL environment
+│   ├── kubernetes/          # Kubernetes manifests
+│   └── helm/                # Helm chart
+│
+├── .github/workflows/       # CI/CD
+└── docker-compose.yml
 ```
 
-No React application, Kubernetes manifests, or Helm chart has been generated at this stage.
+## Planned Core Features
 
-## Local development with Docker Compose
+### Organization Management
 
-Copy the environment template and replace its example password:
+Management of employees, departments, reporting relationships, and organizational roles.
+
+### Project Management
+
+Projects can contain information such as:
+
+* project status,
+* required skills,
+* assigned employees,
+* project ownership,
+* start and end dates.
+
+### Authentication & Authorization
+
+JWT-based authentication with role-based access control for different levels of access to the system.
+
+### Management Dashboard
+
+The React dashboard will provide an overview of company data such as:
+
+* employee distribution,
+* department statistics,
+* active projects,
+* project staffing,
+* organizational metrics.
+
+### GitHub Integration
+
+GitHub API integration will provide development-related project information such as repository activity and selected repository statistics.
+
+### NBP Integration
+
+Integration with the National Bank of Poland API will provide exchange-rate data that can be used for financial and project-related calculations.
+
+### Employee–Project Matching
+
+The application will include a matching mechanism for suggesting employees for projects based on employee skills and project requirements.
+
+The feature will evolve from deterministic skill matching toward NLP-based similarity analysis.
+
+## Local Development
+
+Create the local environment file:
 
 ```bash
 cp .env.example .env
+```
+
+Set the PostgreSQL credentials in `.env`, then start the application:
+
+```bash
 docker compose up --build
 ```
 
-The backend is exposed at `http://localhost:8000` by default. Local values in `.env` are ignored by Git.
+The FastAPI backend is available at:
+
+```text
+http://localhost:8000
+```
+
+Interactive Swagger API documentation:
+
+```text
+http://localhost:8000/docs
+```
 
 Stop the environment with:
 
@@ -34,29 +169,52 @@ Stop the environment with:
 docker compose down
 ```
 
-## Backend development
+## Database Migrations
 
-Create a virtual environment outside source control, install the pinned dependencies, and provide `DATABASE_URL`:
+Database schema changes are managed with Alembic.
 
-```bash
-cd backend
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-export DATABASE_URL=postgresql://corporation_user:your_password@localhost:5432/corporation_db
-uvicorn app.main:app --reload
-```
-
-Run database migrations from `backend/`:
+From the `backend` directory:
 
 ```bash
 alembic upgrade head
 ```
 
-Alembic is the schema-management mechanism; application startup does not create tables automatically.
+New schema changes should be introduced through migrations rather than creating database tables during application startup.
 
-## Current scope
+## Development Status
 
-This cleanup establishes project boundaries and preserves the existing employee API behavior. Authentication, RBAC, projects, dashboards, audit logging, GitHub/NBP integrations, the frontend, and deployment manifests are future work.
+The project is currently under active development.
 
-See [CLEANUP_REPORT.md](CLEANUP_REPORT.md) for the changes, known issues, and recommended next task.
+The repository structure and Docker development environment have been prepared. The next development stages focus on redesigning the domain model and expanding the FastAPI API before implementing the React dashboard and infrastructure layer.
+
+## Roadmap
+
+```text
+Repository cleanup
+        ↓
+Domain model
+        ↓
+REST API
+        ↓
+Automated tests
+        ↓
+React dashboard
+        ↓
+GitHub & NBP integrations
+        ↓
+Employee–Project matching
+        ↓
+Dockerized full stack
+        ↓
+Kubernetes
+        ↓
+Helm
+        ↓
+CI/CD
+```
+
+## Purpose
+
+This project focuses on building a complete application rather than an isolated CRUD demo.
+
+Its development covers the full lifecycle of a modern web application: domain modelling, REST API design, relational databases, automated testing, frontend development, external API integrations, containerization, orchestration, and CI/CD.
