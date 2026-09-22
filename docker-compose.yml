@@ -25,6 +25,7 @@ services:
       - "${BACKEND_PORT:-8000}:8000"
     environment:
       DATABASE_URL: ${DATABASE_URL:?Set DATABASE_URL in .env}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY:-development-only-change-before-production}
     volumes:
       - ./backend:/app
     logging:
