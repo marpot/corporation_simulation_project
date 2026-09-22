@@ -3,10 +3,10 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../auth/useAuth'
 import { useLanguage } from '../../i18n/useLanguage'
 import { formatMessage } from '../../i18n/translations'
+import { ApiError } from '../../services/api'
 import {
   createEmployee,
   deleteEmployee,
-  EmployeeApiError,
   getEmployees,
   updateEmployee,
 } from '../../services/employees'
@@ -54,7 +54,7 @@ export function EmployeesPage() {
   const canManageEmployees = user?.role === 'ADMIN' || user?.role === 'MANAGER'
 
   const handleUnauthorized = useCallback((error: unknown) => {
-    if (error instanceof EmployeeApiError && error.status === 401) {
+    if (error instanceof ApiError && error.status === 401) {
       logout()
       navigate('/login', { replace: true })
       return true
