@@ -15,7 +15,6 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
 def get_db():
-    """Provide a request-scoped synchronous SQLAlchemy session."""
     db: Session = SessionLocal()
     try:
         yield db
