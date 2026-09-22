@@ -1,13 +1,6 @@
-export type EmployeeStatus = 'Active' | 'On leave'
 export type ProjectStatus = 'On track' | 'At risk' | 'Planning'
 export type ActivityCategory = 'People' | 'Delivery' | 'Organization'
 export type DepartmentName = 'Engineering' | 'Product' | 'Sales' | 'Finance' | 'People' | 'Operations'
-export type EmployeeRole =
-  | 'Senior Product Manager'
-  | 'Backend Engineer'
-  | 'People Operations Lead'
-  | 'Financial Analyst'
-  | 'Account Director'
 export type ProjectName =
   | 'Atlas Platform'
   | 'Customer Portal'
@@ -22,18 +15,6 @@ export type OperationalActivityId =
   | 'financeReporting'
   | 'atlasMilestone'
 export type ActivityTimeId = 'today0940' | 'yesterday1510' | 'sep191125' | 'sep181645'
-
-export interface Employee {
-  id: number
-  name: string
-  initials: string
-  role: EmployeeRole
-  department: DepartmentName
-  email: string
-  status: EmployeeStatus
-  currentProject: ProjectName | null
-  allocationPercent: number
-}
 
 export interface Department {
   id: number
