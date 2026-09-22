@@ -4,6 +4,7 @@ const en = {
     englishLanguage: 'English',
     polishLanguage: 'Polish',
     loading: 'Loading workspace…',
+    restoringSession: 'Restoring your session…',
   },
   brand: {
     subtitle: 'Operations Control',
@@ -22,8 +23,12 @@ const en = {
     reportingPeriod: 'Reporting period',
     reportingPeriodValue: 'Q3 2026',
     reportingPeriodLabel: 'Current reporting period',
-    accountRole: 'Operations manager',
     signOut: 'Sign out',
+    roles: {
+      ADMIN: 'Administrator',
+      MANAGER: 'Manager',
+      EMPLOYEE: 'Employee',
+    },
     pages: {
       dashboard: 'Dashboard',
       employees: 'Employees',
@@ -44,10 +49,13 @@ const en = {
     showPassword: 'Show',
     hidePassword: 'Hide',
     signIn: 'Sign in',
+    signingIn: 'Signing in…',
     developmentAccess: 'Development access',
-    developmentNotice: 'Authentication is not connected yet. Any non-empty credentials open the dashboard without being stored.',
+    developmentNotice: 'Use an active account configured in the development database.',
     emailRequired: 'Enter your work email.',
     passwordRequired: 'Enter your password.',
+    invalidCredentials: 'The email or password is incorrect, or the account is inactive.',
+    signInFailed: 'Sign-in is temporarily unavailable. Please try again.',
   },
   dashboard: {
     eyebrow: 'Operational control',
@@ -195,6 +203,7 @@ const pl: TranslationShape<typeof en> = {
     englishLanguage: 'Angielski',
     polishLanguage: 'Polski',
     loading: 'Ładowanie obszaru roboczego…',
+    restoringSession: 'Przywracanie sesji…',
   },
   brand: {
     subtitle: 'Centrum operacyjne',
@@ -213,8 +222,12 @@ const pl: TranslationShape<typeof en> = {
     reportingPeriod: 'Okres raportowy',
     reportingPeriodValue: 'III kw. 2026',
     reportingPeriodLabel: 'Bieżący okres raportowy',
-    accountRole: 'Menedżerka operacyjna',
     signOut: 'Wyloguj',
+    roles: {
+      ADMIN: 'Administrator',
+      MANAGER: 'Menedżer',
+      EMPLOYEE: 'Pracownik',
+    },
     pages: {
       dashboard: 'Panel główny',
       employees: 'Pracownicy',
@@ -235,10 +248,13 @@ const pl: TranslationShape<typeof en> = {
     showPassword: 'Pokaż',
     hidePassword: 'Ukryj',
     signIn: 'Zaloguj się',
+    signingIn: 'Logowanie…',
     developmentAccess: 'Tryb deweloperski',
-    developmentNotice: 'Uwierzytelnianie nie jest jeszcze podłączone. Dowolne niepuste dane otworzą panel i nie zostaną zapisane.',
+    developmentNotice: 'Użyj aktywnego konta skonfigurowanego w deweloperskiej bazie danych.',
     emailRequired: 'Wprowadź firmowy adres e-mail.',
     passwordRequired: 'Wprowadź hasło.',
+    invalidCredentials: 'Adres e-mail lub hasło są nieprawidłowe albo konto jest nieaktywne.',
+    signInFailed: 'Logowanie jest chwilowo niedostępne. Spróbuj ponownie.',
   },
   dashboard: {
     eyebrow: 'Kontrola operacyjna',

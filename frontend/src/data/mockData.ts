@@ -15,27 +15,27 @@ export const dashboardStatistics: DashboardStatistic[] = [
 ]
 
 export const employees: Employee[] = [
-  { id: 1, name: 'Marta Kowalska', initials: 'MK', role: 'Senior Product Manager', department: 'Product', email: 'marta.kowalska@example.com', status: 'Active', currentProject: 'Customer Portal', allocationPercent: 90 },
+  { id: 1, name: 'Marek Kowalski', initials: 'MK', role: 'Senior Product Manager', department: 'Product', email: 'marek.kowalski@example.com', status: 'Active', currentProject: 'Customer Portal', allocationPercent: 90 },
   { id: 2, name: 'Tomasz Zieliński', initials: 'TZ', role: 'Backend Engineer', department: 'Engineering', email: 'tomasz.zielinski@example.com', status: 'Active', currentProject: 'Atlas Platform', allocationPercent: 100 },
-  { id: 3, name: 'Aleksandra Nowak', initials: 'AN', role: 'People Operations Lead', department: 'People', email: 'aleksandra.nowak@example.com', status: 'On leave', currentProject: null, allocationPercent: 0 },
+  { id: 3, name: 'Aleksander Nowak', initials: 'AN', role: 'People Operations Lead', department: 'People', email: 'aleksander.nowak@example.com', status: 'On leave', currentProject: null, allocationPercent: 0 },
   { id: 4, name: 'Piotr Wiśniewski', initials: 'PW', role: 'Financial Analyst', department: 'Finance', email: 'piotr.wisniewski@example.com', status: 'Active', currentProject: 'Cost Controls 2027', allocationPercent: 65 },
-  { id: 5, name: 'Julia Kamińska', initials: 'JK', role: 'Account Director', department: 'Sales', email: 'julia.kaminska@example.com', status: 'Active', currentProject: 'Market Expansion', allocationPercent: 80 },
+  { id: 5, name: 'Julian Kamiński', initials: 'JK', role: 'Account Director', department: 'Sales', email: 'julian.kaminski@example.com', status: 'Active', currentProject: 'Market Expansion', allocationPercent: 80 },
 ]
 
 export const departments: Department[] = [
-  { id: 1, name: 'Engineering', lead: 'Anna Wójcik', employeeCount: 74, location: 'Warsaw', activeProjects: 5, allocationPercent: 86 },
-  { id: 2, name: 'Product', lead: 'Marta Kowalska', employeeCount: 31, location: 'Warsaw', activeProjects: 3, allocationPercent: 81 },
-  { id: 3, name: 'Sales', lead: 'Julia Kamińska', employeeCount: 48, location: 'Kraków', activeProjects: 2, allocationPercent: 76 },
+  { id: 1, name: 'Engineering', lead: 'Adam Wójcik', employeeCount: 74, location: 'Warsaw', activeProjects: 5, allocationPercent: 86 },
+  { id: 2, name: 'Product', lead: 'Marek Kowalski', employeeCount: 31, location: 'Warsaw', activeProjects: 3, allocationPercent: 81 },
+  { id: 3, name: 'Sales', lead: 'Julian Kamiński', employeeCount: 48, location: 'Kraków', activeProjects: 2, allocationPercent: 76 },
   { id: 4, name: 'Finance', lead: 'Michał Mazur', employeeCount: 22, location: 'Warsaw', activeProjects: 1, allocationPercent: 68 },
-  { id: 5, name: 'People', lead: 'Aleksandra Nowak', employeeCount: 16, location: 'Gdańsk', activeProjects: 1, allocationPercent: 62 },
+  { id: 5, name: 'People', lead: 'Aleksander Nowak', employeeCount: 16, location: 'Gdańsk', activeProjects: 1, allocationPercent: 62 },
   { id: 6, name: 'Operations', lead: 'Kamil Lewandowski', employeeCount: 39, location: 'Poznań', activeProjects: 2, allocationPercent: 73 },
 ]
 
 export const projects: Project[] = [
   { id: 1, name: 'Atlas Platform', department: 'Engineering', owner: 'Tomasz Zieliński', status: 'On track', progress: 72, teamSize: 18, dueDate: '2026-12-18' },
-  { id: 2, name: 'Customer Portal', department: 'Product', owner: 'Marta Kowalska', status: 'At risk', progress: 48, teamSize: 12, dueDate: '2026-11-30' },
-  { id: 3, name: 'Market Expansion', department: 'Sales', owner: 'Julia Kamińska', status: 'On track', progress: 61, teamSize: 9, dueDate: '2027-01-20' },
-  { id: 4, name: 'Workforce Planning', department: 'People', owner: 'Aleksandra Nowak', status: 'Planning', progress: 24, teamSize: 6, dueDate: '2027-03-12' },
+  { id: 2, name: 'Customer Portal', department: 'Product', owner: 'Marek Kowalski', status: 'At risk', progress: 48, teamSize: 12, dueDate: '2026-11-30' },
+  { id: 3, name: 'Market Expansion', department: 'Sales', owner: 'Julian Kamiński', status: 'On track', progress: 61, teamSize: 9, dueDate: '2027-01-20' },
+  { id: 4, name: 'Workforce Planning', department: 'People', owner: 'Aleksander Nowak', status: 'Planning', progress: 24, teamSize: 6, dueDate: '2027-03-12' },
 ]
 
 export const allocationSummary: AllocationSummary[] = [

@@ -1,4 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom'
+import { useAuth } from '../../auth/useAuth'
 import { LanguageSelector } from '../LanguageSelector/LanguageSelector'
 import { useLanguage } from '../../i18n/useLanguage'
 import './Header.scss'
@@ -13,8 +14,15 @@ const pageTitleKeys: Record<string, 'dashboard' | 'employees' | 'departments' | 
 export function Header() {
   const { pathname } = useLocation()
   const navigate = useNavigate()
+  const { user, logout } = useAuth()
   const { t } = useLanguage()
   const pageTitle = t.header.pages[pageTitleKeys[pathname] ?? 'dashboard']
+  const avatarLabel = user?.email.slice(0, 2).toUpperCase() ?? ''
+
+  function handleLogout() {
+    logout()
+    navigate('/login', { replace: true })
+  }
 
   return (
     <header className="header">
@@ -29,12 +37,12 @@ export function Header() {
           <strong>{t.header.reportingPeriodValue}</strong>
         </div>
         <div className="header__account">
-          <span className="header__avatar" aria-hidden="true">MK</span>
+          <span className="header__avatar" aria-hidden="true">{avatarLabel}</span>
           <span className="header__account-copy">
-            <strong>Marta Kowalska</strong>
-            <small>{t.header.accountRole}</small>
+            <strong>{user?.email}</strong>
+            <small>{user ? t.header.roles[user.role] : ''}</small>
           </span>
-          <button type="button" onClick={() => navigate('/login')}>{t.header.signOut}</button>
+          <button type="button" onClick={handleLogout}>{t.header.signOut}</button>
         </div>
       </div>
     </header>

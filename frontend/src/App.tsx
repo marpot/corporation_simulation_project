@@ -1,5 +1,6 @@
 import { lazy, Suspense } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
+import { useAuth } from './auth/useAuth'
 import { useLanguage } from './i18n/useLanguage'
 
 const DashboardLayout = lazy(() =>
@@ -23,12 +24,17 @@ const LoginPage = lazy(() =>
 
 function App() {
   const { t } = useLanguage()
+  const { user, isLoading } = useAuth()
+
+  if (isLoading) {
+    return <div className="route-loading" role="status">{t.common.restoringSession}</div>
+  }
 
   return (
     <Suspense fallback={<div className="route-loading" role="status">{t.common.loading}</div>}>
       <Routes>
-        <Route path="login" element={<LoginPage />} />
-        <Route element={<DashboardLayout />}>
+        <Route path="login" element={user ? <Navigate to="/" replace /> : <LoginPage />} />
+        <Route element={user ? <DashboardLayout /> : <Navigate to="/login" replace />}>
           <Route index element={<DashboardPage />} />
           <Route path="employees" element={<EmployeesPage />} />
           <Route path="departments" element={<DepartmentsPage />} />
