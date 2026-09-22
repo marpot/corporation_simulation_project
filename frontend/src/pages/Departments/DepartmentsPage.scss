@@ -1,22 +1,78 @@
-@use '../../styles/mixins' as *;
 @use '../../styles/variables' as *;
 
-.department-name {
-  display: flex;
-  align-items: center;
-  gap: 0.65rem;
+.departments-page {
+  &__heading-actions { display: flex; align-items: center; gap: 0.75rem; }
 
-  > span { width: 2rem; height: 2rem; display: grid; place-items: center; border: 1px solid $color-border; background: $color-table-header; color: $color-primary-dark; font-size: 0.64rem; font-weight: 800; }
+  &__button {
+    min-height: 2.3rem; padding: 0.45rem 0.75rem; border: 1px solid $color-border-strong; background: $color-surface; color: $color-heading; font-size: 0.78rem; font-weight: 700; cursor: pointer;
+    &:hover { border-color: $color-primary; color: $color-primary-dark; }
+    &:focus-visible { outline: 2px solid $color-primary; outline-offset: 2px; }
+    &:disabled { opacity: 0.6; cursor: wait; }
+    &--primary { border-color: $color-primary-dark; background: $color-primary-dark; color: white; &:hover { background: $color-primary; color: white; } }
+  }
+
+  &__state {
+    min-height: 10rem; padding: 2rem; display: grid; place-items: center; align-content: center; gap: 0.75rem; color: $color-text-muted; text-align: center;
+    strong { color: $color-heading; font-size: 0.92rem; }
+    span { font-size: 0.82rem; }
+  }
+
+  &__action-error { margin: 0 0 1rem; padding: 0.75rem 0.9rem; border-left: 3px solid $color-danger; background: #fdecef; color: $color-danger; font-size: 0.8rem; }
+}
+
+.department-form {
+  margin-bottom: 1.25rem;
+  form { padding: 1rem; }
+
+  &__fields {
+    display: grid; grid-template-columns: minmax(12rem, 0.8fr) minmax(18rem, 1.5fr) minmax(10rem, 0.6fr); gap: 1rem;
+    label:not(.department-form__checkbox) { display: grid; align-content: start; gap: 0.35rem; }
+    label > span { color: $color-heading; font-size: 0.78rem; font-weight: 700; }
+    input:not([type='checkbox']), textarea {
+      width: 100%; min-height: 2.55rem; padding: 0.55rem 0.65rem; border: 1px solid $color-border-strong; border-radius: 0; background: $color-surface; color: $color-heading; font: inherit; font-size: 0.84rem;
+      &:focus { border-color: $color-primary; outline: 3px solid rgba($color-primary, 0.12); }
+      &:disabled { background: $color-background; }
+    }
+    textarea { resize: vertical; }
+  }
+
+  &__checkbox {
+    min-height: 2.55rem; align-self: end; display: flex; align-items: center; gap: 0.55rem;
+    input { width: 1rem; height: 1rem; accent-color: $color-primary-dark; }
+  }
+
+  &__error { margin: 0.9rem 0 0; color: $color-danger; font-size: 0.8rem; }
+  &__actions { margin-top: 1rem; display: flex; gap: 0.65rem; }
+}
+
+.department-name {
+  display: flex; align-items: center; gap: 0.65rem;
+  > span { width: 2rem; height: 2rem; display: grid; place-items: center; flex: 0 0 auto; border: 1px solid $color-border; background: $color-table-header; color: $color-primary-dark; font-size: 0.64rem; font-weight: 800; }
   strong { color: $color-heading; font-size: 0.85rem; }
 }
 
-.numeric-value { color: $color-heading; }
+.department-description { max-width: 30rem; color: $color-text-muted; white-space: normal; }
 
-.allocation-cell {
-  min-width: 7rem;
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  progress { @include progress-track; width: 4.5rem; }
-  span { color: $color-text-muted; font-size: 0.75rem; }
+.status--inactive { color: $color-text-muted; background: $color-border-soft; }
+
+.department-actions {
+  display: flex; gap: 0.5rem;
+  button {
+    padding: 0.3rem 0.5rem; border: 0; background: none; color: $color-primary-dark; font-size: 0.75rem; font-weight: 700; cursor: pointer;
+    &:hover { text-decoration: underline; }
+    &:focus-visible { outline: 2px solid $color-primary; outline-offset: 2px; }
+    &:disabled { opacity: 0.55; cursor: wait; }
+  }
+  &__delete { color: $color-danger !important; }
+}
+
+@media (max-width: $breakpoint-tablet) {
+  .department-form__fields { grid-template-columns: 1fr 1fr; }
+  .department-form__description { grid-column: span 2; }
+}
+
+@media (max-width: 620px) {
+  .departments-page__heading-actions { width: 100%; align-items: stretch; flex-direction: column; }
+  .department-form__fields { grid-template-columns: 1fr; }
+  .department-form__description { grid-column: auto; }
 }
