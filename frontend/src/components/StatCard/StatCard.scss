@@ -1,0 +1,12 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/variables' as *;
+
+.stat-card {
+  @include surface;
+  padding: 1rem 1.15rem;
+  border-top: 2px solid $color-primary-dark;
+
+  p { margin: 0; color: $color-text-muted; font-size: 0.76rem; font-weight: 700; letter-spacing: 0.035em; text-transform: uppercase; }
+  strong { margin-top: 0.5rem; display: block; color: $color-heading; font-size: 1.6rem; line-height: 1; letter-spacing: -0.035em; }
+  span { margin-top: 0.55rem; display: block; color: $color-text-subtle; font-size: 0.75rem; }
+}

@@ -1,0 +1,105 @@
+@use '../../styles/variables' as *;
+
+.sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  padding: 1.25rem 0;
+  display: flex;
+  flex-direction: column;
+  background: $color-sidebar;
+  color: $color-sidebar-text;
+
+  &__brand {
+    min-height: 3.25rem;
+    padding: 0 1.25rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+  }
+
+  &__brand-mark {
+    width: 2.4rem;
+    height: 2.4rem;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    background: transparent;
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 800;
+  }
+
+  &__brand-copy {
+    display: grid;
+    line-height: 1.2;
+
+    strong { color: white; font-size: 0.82rem; letter-spacing: 0.1em; }
+    small { margin-top: 0.2rem; color: $color-sidebar-muted; font-size: 0.72rem; }
+  }
+
+  &__navigation { margin-top: 1.5rem; display: grid; gap: 0.1rem; }
+
+  &__section-label {
+    margin: 0 1.25rem 0.55rem;
+    color: $color-sidebar-muted;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+  }
+
+  &__link {
+    min-height: 2.75rem;
+    padding: 0.65rem 1.25rem;
+    border-left: 3px solid transparent;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: $color-sidebar-text;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 160ms ease, color 160ms ease;
+
+    svg {
+      width: 1.2rem;
+      height: 1.2rem;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex: 0 0 auto;
+    }
+
+    &:hover { background: rgba(255, 255, 255, 0.05); color: white; }
+    &:focus-visible { outline: 2px solid $color-primary-light; outline-offset: 2px; }
+    &--active { border-left-color: $color-primary-light; background: rgba(255, 255, 255, 0.08); color: white; }
+  }
+
+  &__footer {
+    margin-top: auto;
+    padding: 1rem 1.25rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.09);
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    color: $color-sidebar-muted;
+    font-size: 0.78rem;
+  }
+
+  &__environment-dot { width: 0.5rem; height: 0.5rem; border-radius: 50%; background: $color-success; }
+}
+
+@media (max-width: $breakpoint-tablet) {
+  .sidebar {
+    padding-inline: 0;
+    &__brand { justify-content: center; padding-inline: 0; }
+    &__brand-copy, &__section-label, &__link span, &__footer span:not(.sidebar__environment-dot) { display: none; }
+    &__link { justify-content: center; padding-inline: 0; }
+    &__footer { justify-content: center; padding-inline: 0; }
+  }
+}

@@ -1,0 +1,11 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/variables' as *;
+
+.project-completion {
+  min-width: 7rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  progress { @include progress-track; width: 4.5rem; }
+  span { color: $color-text-muted; font-size: 0.75rem; }
+}

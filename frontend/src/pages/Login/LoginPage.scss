@@ -1,0 +1,108 @@
+@use '../../styles/variables' as *;
+
+.login-page {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(22rem, 0.9fr) minmax(32rem, 1.1fr);
+  background: $color-surface;
+
+  &__identity {
+    min-height: 100vh;
+    padding: 2.5rem clamp(2.5rem, 5vw, 5rem);
+    display: flex;
+    flex-direction: column;
+    background-color: $color-sidebar;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+    background-size: 40px 40px;
+    color: white;
+  }
+
+  &__topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+
+    .language-selector {
+      border-color: rgba(255, 255, 255, 0.25);
+      background: transparent;
+
+      button { color: $color-sidebar-text; }
+      button + button { border-left-color: rgba(255, 255, 255, 0.25); }
+      button[aria-pressed='true'] { background: white; color: $color-sidebar; }
+    }
+  }
+
+  &__statement {
+    width: min(100%, 34rem);
+    margin: auto 0;
+
+    h1 { max-width: 30rem; margin: 0.75rem 0 1.25rem; font-size: clamp(2.4rem, 4vw, 4.2rem); line-height: 1.02; letter-spacing: -0.055em; }
+    > p:last-child { max-width: 31rem; margin: 0; color: $color-sidebar-text; font-size: 1rem; line-height: 1.7; }
+  }
+
+  &__kicker { margin: 0; color: $color-primary-light; font-size: 0.78rem; font-weight: 750; letter-spacing: 0.12em; text-transform: uppercase; }
+  &__classification { margin: 2rem 0 0; color: $color-sidebar-muted; font-size: 0.76rem; letter-spacing: 0.04em; text-transform: uppercase; }
+
+  &__access { display: grid; place-items: center; padding: 3rem; }
+}
+
+.login-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+
+  &__mark { width: 2.65rem; height: 2.65rem; display: grid; place-items: center; border: 1px solid rgba(255, 255, 255, 0.4); color: white; font-size: 0.76rem; font-weight: 850; letter-spacing: 0.05em; }
+  > span:last-child { display: grid; line-height: 1.2; }
+  strong { font-size: 0.9rem; letter-spacing: 0.1em; }
+  small { margin-top: 0.2rem; color: $color-sidebar-muted; font-size: 0.72rem; }
+}
+
+.login-form {
+  width: min(100%, 26rem);
+
+  &__heading {
+    margin-bottom: 2rem;
+    p { margin: 0 0 0.4rem; color: $color-primary; font-size: 0.75rem; font-weight: 750; letter-spacing: 0.1em; text-transform: uppercase; }
+    h2 { margin: 0; color: $color-heading; font-size: 1.75rem; letter-spacing: -0.035em; }
+    span { margin-top: 0.5rem; display: block; color: $color-text-muted; font-size: 0.9rem; }
+  }
+
+  &__submit {
+    width: 100%; min-height: 2.9rem; margin-top: 0.4rem; border: 1px solid $color-primary-dark; background: $color-primary-dark; color: white; font-weight: 750; cursor: pointer;
+    &:hover { background: $color-primary; }
+    &:focus-visible { outline: 3px solid rgba($color-primary, 0.25); outline-offset: 2px; }
+  }
+
+  &__notice {
+    margin-top: 1.5rem; padding: 0.9rem 1rem; border-left: 3px solid $color-warning; background: $color-warning-soft; display: grid; gap: 0.2rem;
+    strong { color: $color-heading; font-size: 0.78rem; }
+    span { color: $color-text-muted; font-size: 0.76rem; line-height: 1.5; }
+  }
+}
+
+.form-field {
+  margin-bottom: 1.15rem;
+
+  label { margin-bottom: 0.4rem; display: block; color: $color-heading; font-size: 0.875rem; font-weight: 700; }
+  input { width: 100%; min-height: 2.85rem; padding: 0.7rem 0.8rem; border: 1px solid $color-border-strong; border-radius: 0; color: $color-heading; background: white; font-size: 0.9rem; }
+  input:focus { border-color: $color-primary; outline: 3px solid rgba($color-primary, 0.12); }
+  input[aria-invalid='true'] { border-color: $color-danger; }
+  &__error { margin-top: 0.35rem; display: block; color: $color-danger; font-size: 0.76rem; }
+}
+
+.password-field {
+  position: relative;
+  input { padding-right: 4.5rem; }
+  button { position: absolute; top: 50%; right: 0.75rem; border: 0; background: none; color: $color-primary-dark; font-size: 0.875rem; font-weight: 750; cursor: pointer; transform: translateY(-50%); }
+}
+
+@media (max-width: 850px) {
+  .login-page {
+    grid-template-columns: 1fr;
+    &__identity { min-height: auto; padding: 2rem; }
+    &__statement { margin: 5rem 0; }
+    &__classification { display: none; }
+    &__access { padding: 3rem 2rem; }
+  }
+}
