@@ -1,7 +1,6 @@
 import type {
   DashboardStatistic,
   Department,
-  Employee,
   AllocationSummary,
   OperationalActivity,
   Project,
@@ -12,14 +11,6 @@ export const dashboardStatistics: DashboardStatistic[] = [
   { id: 'departments', value: 8 },
   { id: 'projects', value: 14 },
   { id: 'assigned', value: 79 },
-]
-
-export const employees: Employee[] = [
-  { id: 1, name: 'Marek Kowalski', initials: 'MK', role: 'Senior Product Manager', department: 'Product', email: 'marek.kowalski@example.com', status: 'Active', currentProject: 'Customer Portal', allocationPercent: 90 },
-  { id: 2, name: 'Tomasz Zieliński', initials: 'TZ', role: 'Backend Engineer', department: 'Engineering', email: 'tomasz.zielinski@example.com', status: 'Active', currentProject: 'Atlas Platform', allocationPercent: 100 },
-  { id: 3, name: 'Aleksander Nowak', initials: 'AN', role: 'People Operations Lead', department: 'People', email: 'aleksander.nowak@example.com', status: 'On leave', currentProject: null, allocationPercent: 0 },
-  { id: 4, name: 'Piotr Wiśniewski', initials: 'PW', role: 'Financial Analyst', department: 'Finance', email: 'piotr.wisniewski@example.com', status: 'Active', currentProject: 'Cost Controls 2027', allocationPercent: 65 },
-  { id: 5, name: 'Julian Kamiński', initials: 'JK', role: 'Account Director', department: 'Sales', email: 'julian.kaminski@example.com', status: 'Active', currentProject: 'Market Expansion', allocationPercent: 80 },
 ]
 
 export const departments: Department[] = [

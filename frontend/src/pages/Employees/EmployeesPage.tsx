@@ -1,50 +1,310 @@
-import { employees } from '../../data/mockData'
+import { type FormEvent, useCallback, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../../auth/useAuth'
 import { useLanguage } from '../../i18n/useLanguage'
 import { formatMessage } from '../../i18n/translations'
+import {
+  createEmployee,
+  deleteEmployee,
+  EmployeeApiError,
+  getEmployees,
+  updateEmployee,
+} from '../../services/employees'
+import type { Employee, EmployeeCreate, Seniority } from '../../types/employee'
 import './EmployeesPage.scss'
 
+interface EmployeeFormValues {
+  firstName: string
+  lastName: string
+  position: string
+  seniority: Seniority
+  weeklyCapacity: string
+  active: boolean
+}
+
+const emptyForm: EmployeeFormValues = {
+  firstName: '',
+  lastName: '',
+  position: '',
+  seniority: 'MID',
+  weeklyCapacity: '40',
+  active: true,
+}
+
+const seniorityLevels: Seniority[] = ['JUNIOR', 'MID', 'SENIOR', 'LEAD']
+
+function employeeInitials(employee: Employee) {
+  return `${employee.first_name.charAt(0)}${employee.last_name.charAt(0)}`.toUpperCase()
+}
+
 export function EmployeesPage() {
+  const navigate = useNavigate()
+  const { user, logout } = useAuth()
   const { t } = useLanguage()
-  const activeEmployeeCount = employees.filter((employee) => employee.status === 'Active').length
+  const [employees, setEmployees] = useState<Employee[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [loadError, setLoadError] = useState(false)
+  const [isFormOpen, setIsFormOpen] = useState(false)
+  const [editingEmployee, setEditingEmployee] = useState<Employee | null>(null)
+  const [formValues, setFormValues] = useState<EmployeeFormValues>(emptyForm)
+  const [formError, setFormError] = useState<string | null>(null)
+  const [actionError, setActionError] = useState<string | null>(null)
+  const [isSaving, setIsSaving] = useState(false)
+  const [deletingEmployeeId, setDeletingEmployeeId] = useState<number | null>(null)
+  const canManageEmployees = user?.role === 'ADMIN' || user?.role === 'MANAGER'
+
+  const handleUnauthorized = useCallback((error: unknown) => {
+    if (error instanceof EmployeeApiError && error.status === 401) {
+      logout()
+      navigate('/login', { replace: true })
+      return true
+    }
+    return false
+  }, [logout, navigate])
+
+  useEffect(() => {
+    let isCurrent = true
+
+    getEmployees()
+      .then((employeeList) => {
+        if (isCurrent) setEmployees(employeeList)
+      })
+      .catch((error: unknown) => {
+        if (!handleUnauthorized(error) && isCurrent) setLoadError(true)
+      })
+      .finally(() => {
+        if (isCurrent) setIsLoading(false)
+      })
+
+    return () => {
+      isCurrent = false
+    }
+  }, [handleUnauthorized])
+
+  async function handleRetry() {
+    setIsLoading(true)
+    setLoadError(false)
+    try {
+      setEmployees(await getEmployees())
+    } catch (error) {
+      if (!handleUnauthorized(error)) setLoadError(true)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  function openCreateForm() {
+    setEditingEmployee(null)
+    setFormValues(emptyForm)
+    setFormError(null)
+    setActionError(null)
+    setIsFormOpen(true)
+  }
+
+  function openEditForm(employee: Employee) {
+    setEditingEmployee(employee)
+    setFormValues({
+      firstName: employee.first_name,
+      lastName: employee.last_name,
+      position: employee.position,
+      seniority: employee.seniority,
+      weeklyCapacity: String(employee.weekly_capacity),
+      active: employee.active,
+    })
+    setFormError(null)
+    setActionError(null)
+    setIsFormOpen(true)
+  }
+
+  function closeForm() {
+    setIsFormOpen(false)
+    setEditingEmployee(null)
+    setFormError(null)
+  }
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    if (isSaving) return
+
+    const firstName = formValues.firstName.trim()
+    const lastName = formValues.lastName.trim()
+    const position = formValues.position.trim()
+    const weeklyCapacity = Number(formValues.weeklyCapacity)
+
+    if (!firstName || !lastName || !position) {
+      setFormError(t.employees.requiredFieldsError)
+      return
+    }
+    if (!Number.isInteger(weeklyCapacity) || weeklyCapacity <= 0) {
+      setFormError(t.employees.capacityError)
+      return
+    }
+
+    const employeeData: EmployeeCreate = {
+      first_name: firstName,
+      last_name: lastName,
+      position,
+      seniority: formValues.seniority,
+      weekly_capacity: weeklyCapacity,
+      active: formValues.active,
+    }
+
+    setIsSaving(true)
+    setFormError(null)
+    try {
+      if (editingEmployee) {
+        const updatedEmployee = await updateEmployee(editingEmployee.id, employeeData)
+        setEmployees((current) => current.map((employee) => (
+          employee.id === updatedEmployee.id ? updatedEmployee : employee
+        )))
+      } else {
+        const createdEmployee = await createEmployee(employeeData)
+        setEmployees((current) => [...current, createdEmployee])
+      }
+      closeForm()
+    } catch (error) {
+      if (!handleUnauthorized(error)) setFormError(t.employees.saveError)
+    } finally {
+      setIsSaving(false)
+    }
+  }
+
+  async function handleDelete(employee: Employee) {
+    const employeeName = `${employee.first_name} ${employee.last_name}`
+    if (!window.confirm(formatMessage(t.employees.deleteConfirmation, { name: employeeName }))) return
+
+    setDeletingEmployeeId(employee.id)
+    setActionError(null)
+    try {
+      await deleteEmployee(employee.id)
+      setEmployees((current) => current.filter((item) => item.id !== employee.id))
+      if (editingEmployee?.id === employee.id) closeForm()
+    } catch (error) {
+      if (!handleUnauthorized(error)) setActionError(t.employees.deleteError)
+    } finally {
+      setDeletingEmployeeId(null)
+    }
+  }
+
+  const activeEmployeeCount = employees.filter((employee) => employee.active).length
 
   return (
-    <div className="page">
+    <div className="page employees-page">
       <section className="page-heading">
         <div>
           <p className="page-heading__eyebrow">{t.employees.eyebrow}</p>
           <h2>{t.employees.title}</h2>
           <p>{t.employees.description}</p>
         </div>
-        <span className="record-count">{formatMessage(t.employees.sampleRecords, { count: employees.length })}</span>
+        <div className="employees-page__heading-actions">
+          <span className="record-count">{formatMessage(t.employees.count, { count: employees.length })}</span>
+          {canManageEmployees && (
+            <button className="employees-page__button employees-page__button--primary" type="button" onClick={openCreateForm}>
+              {t.employees.createEmployee}
+            </button>
+          )}
+        </div>
       </section>
+
+      {isFormOpen && canManageEmployees && (
+        <section className="data-card employee-form" aria-labelledby="employee-form-heading">
+          <div className="data-card__header">
+            <div>
+              <h3 id="employee-form-heading">{editingEmployee ? t.employees.editEmployee : t.employees.createEmployee}</h3>
+              <p>{t.employees.formDescription}</p>
+            </div>
+          </div>
+          <form onSubmit={handleSubmit} noValidate>
+            <div className="employee-form__fields">
+              <label>
+                <span>{t.employees.firstName}</span>
+                <input required value={formValues.firstName} disabled={isSaving} onChange={(event) => setFormValues((current) => ({ ...current, firstName: event.target.value }))} />
+              </label>
+              <label>
+                <span>{t.employees.lastName}</span>
+                <input required value={formValues.lastName} disabled={isSaving} onChange={(event) => setFormValues((current) => ({ ...current, lastName: event.target.value }))} />
+              </label>
+              <label>
+                <span>{t.employees.position}</span>
+                <input required value={formValues.position} disabled={isSaving} onChange={(event) => setFormValues((current) => ({ ...current, position: event.target.value }))} />
+              </label>
+              <label>
+                <span>{t.employees.seniority}</span>
+                <select value={formValues.seniority} disabled={isSaving} onChange={(event) => setFormValues((current) => ({ ...current, seniority: event.target.value as Seniority }))}>
+                  {seniorityLevels.map((seniority) => <option key={seniority} value={seniority}>{t.employees.seniorityLevels[seniority]}</option>)}
+                </select>
+              </label>
+              <label>
+                <span>{t.employees.weeklyCapacity}</span>
+                <input type="number" min="1" step="1" required value={formValues.weeklyCapacity} disabled={isSaving} onChange={(event) => setFormValues((current) => ({ ...current, weeklyCapacity: event.target.value }))} />
+              </label>
+              <label className="employee-form__checkbox">
+                <input type="checkbox" checked={formValues.active} disabled={isSaving} onChange={(event) => setFormValues((current) => ({ ...current, active: event.target.checked }))} />
+                <span>{t.employees.activeEmployee}</span>
+              </label>
+            </div>
+            {formError && <p className="employee-form__error" role="alert">{formError}</p>}
+            <div className="employee-form__actions">
+              <button className="employees-page__button employees-page__button--primary" type="submit" disabled={isSaving}>
+                {isSaving ? t.employees.saving : t.employees.save}
+              </button>
+              <button className="employees-page__button" type="button" disabled={isSaving} onClick={closeForm}>{t.employees.cancel}</button>
+            </div>
+          </form>
+        </section>
+      )}
+
+      {actionError && <p className="employees-page__action-error" role="alert">{actionError}</p>}
 
       <section className="data-card" aria-labelledby="employee-table-heading">
         <div className="data-card__header">
           <div><h3 id="employee-table-heading">{t.employees.directory}</h3><p>{t.employees.directoryDescription}</p></div>
           <span>{formatMessage(t.employees.activeCount, { count: activeEmployeeCount })}</span>
         </div>
-        <div className="table-scroll">
+        {isLoading && <div className="employees-page__state" role="status">{t.employees.loading}</div>}
+        {!isLoading && loadError && (
+          <div className="employees-page__state" role="alert">
+            <strong>{t.employees.loadError}</strong>
+            <button className="employees-page__button" type="button" onClick={handleRetry}>{t.employees.retry}</button>
+          </div>
+        )}
+        {!isLoading && !loadError && employees.length === 0 && (
+          <div className="employees-page__state">
+            <strong>{t.employees.emptyTitle}</strong>
+            <span>{t.employees.emptyDescription}</span>
+          </div>
+        )}
+        {!isLoading && !loadError && employees.length > 0 && <div className="table-scroll">
           <table>
-            <thead><tr><th scope="col">{t.employees.employee}</th><th scope="col">{t.employees.role}</th><th scope="col">{t.employees.department}</th><th scope="col">{t.employees.currentAssignment}</th><th scope="col">{t.employees.allocation}</th><th scope="col">{t.employees.status}</th></tr></thead>
+            <thead><tr><th scope="col">{t.employees.employee}</th><th scope="col">{t.employees.position}</th><th scope="col">{t.employees.seniority}</th><th scope="col">{t.employees.weeklyCapacity}</th><th scope="col">{t.employees.status}</th>{canManageEmployees && <th scope="col">{t.employees.actions}</th>}</tr></thead>
             <tbody>
               {employees.map((employee) => (
                 <tr key={employee.id}>
                   <td>
                     <div className="employee-cell">
-                      <span className="employee-cell__avatar" aria-hidden="true">{employee.initials}</span>
-                      <div><strong>{employee.name}</strong><span>{employee.email}</span></div>
+                      <span className="employee-cell__avatar" aria-hidden="true">{employeeInitials(employee)}</span>
+                      <div><strong>{employee.first_name} {employee.last_name}</strong></div>
                     </div>
                   </td>
-                  <td>{t.domain.employeeRoles[employee.role]}</td>
-                  <td>{t.domain.departmentNames[employee.department]}</td>
-                  <td>{employee.currentProject ? t.domain.projectNames[employee.currentProject] : t.employees.unassigned}</td>
-                  <td>{employee.allocationPercent}%</td>
-                  <td><span className={`status status--${employee.status.toLowerCase().replace(' ', '-')}`}>{t.domain.employeeStatus[employee.status]}</span></td>
+                  <td>{employee.position}</td>
+                  <td>{t.employees.seniorityLevels[employee.seniority]}</td>
+                  <td>{formatMessage(t.employees.hoursPerWeek, { count: employee.weekly_capacity })}</td>
+                  <td><span className={`status${employee.active ? '' : ' status--inactive'}`}>{employee.active ? t.employees.active : t.employees.inactive}</span></td>
+                  {canManageEmployees && (
+                    <td>
+                      <div className="employee-actions">
+                        <button type="button" onClick={() => openEditForm(employee)}>{t.employees.edit}</button>
+                        <button className="employee-actions__delete" type="button" disabled={deletingEmployeeId === employee.id} onClick={() => handleDelete(employee)}>
+                          {deletingEmployeeId === employee.id ? t.employees.deleting : t.employees.delete}
+                        </button>
+                      </div>
+                    </td>
+                  )}
                 </tr>
               ))}
             </tbody>
           </table>
-        </div>
+        </div>}
       </section>
     </div>
   )
