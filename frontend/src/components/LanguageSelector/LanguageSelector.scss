@@ -1,0 +1,23 @@
+@use '../../styles/variables' as *;
+
+.language-selector {
+  display: inline-flex;
+  border: 1px solid $color-border;
+  background: $color-surface;
+
+  button {
+    min-width: 2.25rem;
+    min-height: 2rem;
+    padding: 0.25rem 0.45rem;
+    border: 0;
+    background: transparent;
+    color: $color-text-muted;
+    font-size: 0.75rem;
+    font-weight: 750;
+    cursor: pointer;
+
+    + button { border-left: 1px solid $color-border; }
+    &[aria-pressed='true'] { background: $color-primary-dark; color: white; }
+    &:focus-visible { position: relative; outline: 2px solid $color-primary; outline-offset: 2px; }
+  }
+}

@@ -1,0 +1,24 @@
+@use '../../styles/variables' as *;
+
+.dashboard-layout {
+  display: grid;
+  grid-template-columns: $sidebar-width minmax(0, 1fr);
+  min-height: 100vh;
+  background: $color-background;
+
+  &__workspace { min-width: 0; }
+
+  &__content {
+    width: min(100%, 1440px);
+    margin: 0 auto;
+    padding: 1.6rem 1.75rem 2.5rem;
+  }
+}
+
+@media (max-width: $breakpoint-tablet) {
+  .dashboard-layout {
+    grid-template-columns: $sidebar-width-compact minmax(0, 1fr);
+
+    &__content { padding: 1.5rem; }
+  }
+}

@@ -1,0 +1,12 @@
+@use '../../styles/variables' as *;
+
+.employee-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+
+  &__avatar { width: 2.1rem; height: 2.1rem; display: grid; place-items: center; flex: 0 0 auto; border: 1px solid $color-border; background: $color-primary-soft; color: $color-primary-dark; font-size: 0.68rem; font-weight: 800; }
+  div { display: grid; gap: 0.15rem; }
+  strong { color: $color-heading; font-size: 0.86rem; }
+  div span { color: $color-text-subtle; font-size: 0.74rem; }
+}

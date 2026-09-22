@@ -1,0 +1,85 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/variables' as *;
+
+.dashboard-page {
+  &__stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.75rem; }
+  &__primary-grid { margin-top: 1rem; display: grid; grid-template-columns: minmax(0, 2.2fr) minmax(16rem, 0.8fr); gap: 1rem; }
+  &__secondary-grid { margin-top: 1rem; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(20rem, 0.85fr); gap: 1rem; }
+}
+
+.data-as-of { color: $color-text-subtle; font-size: 0.75rem; }
+
+.operations-panel {
+  @include surface;
+  min-width: 0;
+  overflow: hidden;
+
+  &__header {
+    min-height: 4rem;
+    padding: 0.9rem 1rem;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    border-bottom: 1px solid $color-border;
+
+    h3 { margin: 0; color: $color-heading; font-size: 0.92rem; }
+    p { margin: 0.2rem 0 0; color: $color-text-subtle; font-size: 0.75rem; }
+    > span { color: $color-text-subtle; font-size: 0.75rem; }
+  }
+}
+
+.table-progress {
+  min-width: 6rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  progress { @include progress-track; width: 4rem; }
+  span { color: $color-text-muted; font-size: 0.74rem; }
+}
+
+.allocation-list {
+  padding: 0 1rem;
+
+  &__item {
+    padding: 1rem 0;
+    border-bottom: 1px solid $color-border-soft;
+    &:last-child { border-bottom: 0; }
+    > div { display: flex; justify-content: space-between; color: $color-heading; font-size: 0.82rem; }
+    progress { @include progress-track; width: 100%; margin-top: 0.65rem; }
+    p { margin: 0.4rem 0 0; color: $color-text-subtle; font-size: 0.72rem; }
+  }
+}
+
+.department-overview {
+  &__head, &__row { padding: 0.7rem 1rem; display: grid; grid-template-columns: minmax(10rem, 1.6fr) repeat(3, minmax(4.5rem, 0.6fr)); align-items: center; column-gap: 0.8rem; }
+  &__head { background: $color-table-header; color: $color-text-subtle; font-size: 0.68rem; font-weight: 750; letter-spacing: 0.05em; text-transform: uppercase; }
+  &__row { border-top: 1px solid $color-border-soft; color: $color-text; font-size: 0.8rem; }
+  &__row > span:first-child { display: grid; }
+  strong { color: $color-heading; font-size: 0.82rem; }
+  small { color: $color-text-subtle; font-size: 0.7rem; }
+}
+
+.activity-list {
+  margin: 0;
+  padding: 0 1rem;
+  list-style: none;
+
+  li { padding: 0.85rem 0; display: grid; grid-template-columns: auto 1fr; gap: 0.75rem; border-bottom: 1px solid $color-border-soft; }
+  li:last-child { border-bottom: 0; }
+  li > div { display: grid; }
+  div > span { color: $color-text-subtle; font-size: 0.68rem; text-transform: uppercase; }
+  strong { margin-top: 0.15rem; color: $color-heading; font-size: 0.8rem; }
+  p { margin: 0.15rem 0 0; color: $color-text-muted; font-size: 0.74rem; }
+
+  &__marker { width: 0.45rem; height: 0.45rem; margin-top: 0.35rem; background: $color-primary; }
+  &__marker--people { background: $color-teal; }
+  &__marker--organization { background: $color-warning; }
+}
+
+@media (max-width: 1180px) {
+  .dashboard-page {
+    &__stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    &__primary-grid, &__secondary-grid { grid-template-columns: 1fr; }
+  }
+}
