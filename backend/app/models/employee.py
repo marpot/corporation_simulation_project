@@ -44,3 +44,9 @@ class Employee(Base):
     )
 
     department = relationship("Department", back_populates="employees")
+    assignments = relationship(
+        "Assignment",
+        back_populates="employee",
+        cascade="all, delete-orphan",
+        passive_deletes=True,
+    )

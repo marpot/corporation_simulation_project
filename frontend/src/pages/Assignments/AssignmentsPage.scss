@@ -1,0 +1,73 @@
+@use '../../styles/variables' as *;
+
+.assignments-page {
+  &__heading-actions { display: flex; align-items: center; gap: 0.75rem; }
+
+  &__button {
+    min-height: 2.3rem; padding: 0.45rem 0.75rem; border: 1px solid $color-border-strong; background: $color-surface; color: $color-heading; font-size: 0.78rem; font-weight: 700; cursor: pointer;
+    &:hover { border-color: $color-primary; color: $color-primary-dark; }
+    &:focus-visible { outline: 2px solid $color-primary; outline-offset: 2px; }
+    &:disabled { opacity: 0.6; cursor: wait; }
+    &--primary { border-color: $color-primary-dark; background: $color-primary-dark; color: white; &:hover { background: $color-primary; color: white; } }
+  }
+
+  &__state {
+    min-height: 10rem; padding: 2rem; display: grid; place-items: center; align-content: center; gap: 0.75rem; color: $color-text-muted; text-align: center;
+    strong { color: $color-heading; font-size: 0.92rem; }
+    span { font-size: 0.82rem; }
+  }
+
+  &__support-notice {
+    margin: 0 0 1rem; padding: 0.75rem 0.9rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; border-left: 3px solid $color-warning; background: $color-warning-soft; color: $color-heading; font-size: 0.8rem;
+  }
+
+  &__action-error { margin: 0 0 1rem; padding: 0.75rem 0.9rem; border-left: 3px solid $color-danger; background: #fdecef; color: $color-danger; font-size: 0.8rem; }
+}
+
+.assignment-form {
+  margin-bottom: 1.25rem;
+  form { padding: 1rem; }
+
+  &__fields {
+    display: grid; grid-template-columns: repeat(5, minmax(9rem, 1fr)); gap: 1rem;
+    label { display: grid; align-content: start; gap: 0.35rem; }
+    label > span { color: $color-heading; font-size: 0.78rem; font-weight: 700; }
+    input, select {
+      width: 100%; min-height: 2.55rem; padding: 0.55rem 0.65rem; border: 1px solid $color-border-strong; border-radius: 0; background: $color-surface; color: $color-heading; font: inherit; font-size: 0.84rem;
+      &:focus { border-color: $color-primary; outline: 3px solid rgba($color-primary, 0.12); }
+      &:disabled { background: $color-background; }
+    }
+  }
+
+  &__error { margin: 0.9rem 0 0; color: $color-danger; font-size: 0.8rem; }
+  &__actions { margin-top: 1rem; display: flex; gap: 0.65rem; }
+}
+
+.assignment-allocation {
+  min-width: 3.25rem; padding: 0.28rem 0.52rem; display: inline-flex; justify-content: center; background: $color-primary-soft; color: $color-primary-dark; font-size: 0.75rem; font-weight: 750;
+}
+
+.assignment-actions {
+  display: flex; gap: 0.5rem;
+  button {
+    padding: 0.3rem 0.5rem; border: 0; background: none; color: $color-primary-dark; font-size: 0.75rem; font-weight: 700; cursor: pointer;
+    &:hover { text-decoration: underline; }
+    &:focus-visible { outline: 2px solid $color-primary; outline-offset: 2px; }
+    &:disabled { opacity: 0.55; cursor: wait; }
+  }
+  &__delete { color: $color-danger !important; }
+}
+
+@media (max-width: 1180px) {
+  .assignment-form__fields { grid-template-columns: repeat(3, minmax(10rem, 1fr)); }
+}
+
+@media (max-width: $breakpoint-tablet) {
+  .assignment-form__fields { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 620px) {
+  .assignments-page__heading-actions { width: 100%; align-items: stretch; flex-direction: column; }
+  .assignments-page__support-notice { align-items: stretch; flex-direction: column; }
+  .assignment-form__fields { grid-template-columns: 1fr; }
+}
