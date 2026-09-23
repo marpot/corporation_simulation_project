@@ -4,6 +4,7 @@ import { useAuth } from '../../auth/useAuth'
 import { useLanguage } from '../../i18n/useLanguage'
 import { formatMessage } from '../../i18n/translations'
 import { ApiError } from '../../services/api'
+import { getDepartments } from '../../services/departments'
 import {
   createEmployee,
   deleteEmployee,
@@ -11,6 +12,7 @@ import {
   updateEmployee,
 } from '../../services/employees'
 import type { Employee, EmployeeCreate, Seniority } from '../../types/employee'
+import type { Department } from '../../types/department'
 import './EmployeesPage.scss'
 
 interface EmployeeFormValues {
@@ -20,6 +22,7 @@ interface EmployeeFormValues {
   seniority: Seniority
   weeklyCapacity: string
   active: boolean
+  departmentId: string
 }
 
 const emptyForm: EmployeeFormValues = {
@@ -29,6 +32,7 @@ const emptyForm: EmployeeFormValues = {
   seniority: 'MID',
   weeklyCapacity: '40',
   active: true,
+  departmentId: '',
 }
 
 const seniorityLevels: Seniority[] = ['JUNIOR', 'MID', 'SENIOR', 'LEAD']
@@ -44,6 +48,9 @@ export function EmployeesPage() {
   const [employees, setEmployees] = useState<Employee[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [loadError, setLoadError] = useState(false)
+  const [departments, setDepartments] = useState<Department[]>([])
+  const [areDepartmentsLoading, setAreDepartmentsLoading] = useState(true)
+  const [departmentsLoadError, setDepartmentsLoadError] = useState(false)
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [editingEmployee, setEditingEmployee] = useState<Employee | null>(null)
   const [formValues, setFormValues] = useState<EmployeeFormValues>(emptyForm)
@@ -81,6 +88,25 @@ export function EmployeesPage() {
     }
   }, [handleUnauthorized])
 
+  useEffect(() => {
+    let isCurrent = true
+
+    getDepartments()
+      .then((departmentList) => {
+        if (isCurrent) setDepartments(departmentList)
+      })
+      .catch((error: unknown) => {
+        if (!handleUnauthorized(error) && isCurrent) setDepartmentsLoadError(true)
+      })
+      .finally(() => {
+        if (isCurrent) setAreDepartmentsLoading(false)
+      })
+
+    return () => {
+      isCurrent = false
+    }
+  }, [handleUnauthorized])
+
   async function handleRetry() {
     setIsLoading(true)
     setLoadError(false)
@@ -90,6 +116,18 @@ export function EmployeesPage() {
       if (!handleUnauthorized(error)) setLoadError(true)
     } finally {
       setIsLoading(false)
+    }
+  }
+
+  async function handleDepartmentsRetry() {
+    setAreDepartmentsLoading(true)
+    setDepartmentsLoadError(false)
+    try {
+      setDepartments(await getDepartments())
+    } catch (error) {
+      if (!handleUnauthorized(error)) setDepartmentsLoadError(true)
+    } finally {
+      setAreDepartmentsLoading(false)
     }
   }
 
@@ -110,6 +148,9 @@ export function EmployeesPage() {
       seniority: employee.seniority,
       weeklyCapacity: String(employee.weekly_capacity),
       active: employee.active,
+      departmentId: employee.department_id === null || employee.department_id === undefined
+        ? ''
+        : String(employee.department_id),
     })
     setFormError(null)
     setActionError(null)
@@ -147,6 +188,12 @@ export function EmployeesPage() {
       seniority: formValues.seniority,
       weekly_capacity: weeklyCapacity,
       active: formValues.active,
+    }
+
+    if (!areDepartmentsLoading && !departmentsLoadError) {
+      employeeData.department_id = formValues.departmentId === ''
+        ? null
+        : Number(formValues.departmentId)
     }
 
     setIsSaving(true)
@@ -187,6 +234,15 @@ export function EmployeesPage() {
   }
 
   const activeEmployeeCount = employees.filter((employee) => employee.active).length
+  const availableDepartments = departments.filter((department) => (
+    department.active || department.id === editingEmployee?.department_id
+  ))
+
+  function getDepartmentName(departmentId: number | null | undefined) {
+    if (departmentId === null || departmentId === undefined) return t.employees.unassigned
+    return departments.find((department) => department.id === departmentId)?.name
+      ?? t.employees.departmentUnavailable
+  }
 
   return (
     <div className="page employees-page">
@@ -205,6 +261,15 @@ export function EmployeesPage() {
           )}
         </div>
       </section>
+
+      {departmentsLoadError && (
+        <div className="employees-page__department-notice" role="alert" id="department-load-error">
+          <span>{t.employees.departmentsLoadError}</span>
+          <button className="employees-page__button" type="button" onClick={handleDepartmentsRetry}>
+            {t.employees.retryDepartments}
+          </button>
+        </div>
+      )}
 
       {isFormOpen && canManageEmployees && (
         <section className="data-card employee-form" aria-labelledby="employee-form-heading">
@@ -237,6 +302,26 @@ export function EmployeesPage() {
               <label>
                 <span>{t.employees.weeklyCapacity}</span>
                 <input type="number" min="1" step="1" required value={formValues.weeklyCapacity} disabled={isSaving} onChange={(event) => setFormValues((current) => ({ ...current, weeklyCapacity: event.target.value }))} />
+              </label>
+              <label>
+                <span>{t.employees.department}</span>
+                <select
+                  value={formValues.departmentId}
+                  disabled={isSaving || areDepartmentsLoading || departmentsLoadError}
+                  aria-describedby={departmentsLoadError ? 'department-load-error' : undefined}
+                  onChange={(event) => setFormValues((current) => ({ ...current, departmentId: event.target.value }))}
+                >
+                  {areDepartmentsLoading
+                    ? <option value="">{t.employees.departmentsLoading}</option>
+                    : <>
+                      <option value="">{t.employees.unassigned}</option>
+                      {availableDepartments.map((department) => (
+                        <option key={department.id} value={department.id}>
+                          {department.name}{department.active ? '' : ` (${t.employees.inactive})`}
+                        </option>
+                      ))}
+                    </>}
+                </select>
               </label>
               <label className="employee-form__checkbox">
                 <input type="checkbox" checked={formValues.active} disabled={isSaving} onChange={(event) => setFormValues((current) => ({ ...current, active: event.target.checked }))} />
@@ -276,7 +361,7 @@ export function EmployeesPage() {
         )}
         {!isLoading && !loadError && employees.length > 0 && <div className="table-scroll">
           <table>
-            <thead><tr><th scope="col">{t.employees.employee}</th><th scope="col">{t.employees.position}</th><th scope="col">{t.employees.seniority}</th><th scope="col">{t.employees.weeklyCapacity}</th><th scope="col">{t.employees.status}</th>{canManageEmployees && <th scope="col">{t.employees.actions}</th>}</tr></thead>
+            <thead><tr><th scope="col">{t.employees.employee}</th><th scope="col">{t.employees.department}</th><th scope="col">{t.employees.position}</th><th scope="col">{t.employees.seniority}</th><th scope="col">{t.employees.weeklyCapacity}</th><th scope="col">{t.employees.status}</th>{canManageEmployees && <th scope="col">{t.employees.actions}</th>}</tr></thead>
             <tbody>
               {employees.map((employee) => (
                 <tr key={employee.id}>
@@ -286,6 +371,7 @@ export function EmployeesPage() {
                       <div><strong>{employee.first_name} {employee.last_name}</strong></div>
                     </div>
                   </td>
+                  <td>{getDepartmentName(employee.department_id)}</td>
                   <td>{employee.position}</td>
                   <td>{t.employees.seniorityLevels[employee.seniority]}</td>
                   <td>{formatMessage(t.employees.hoursPerWeek, { count: employee.weekly_capacity })}</td>

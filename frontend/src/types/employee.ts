@@ -9,6 +9,7 @@ export interface Employee {
   weekly_capacity: number
   active: boolean
   user_id: number | null
+  department_id: number | null
 }
 
 export interface EmployeeCreate {
@@ -19,6 +20,7 @@ export interface EmployeeCreate {
   weekly_capacity: number
   active: boolean
   user_id?: number | null
+  department_id?: number | null
 }
 
 export type EmployeeUpdate = Partial<EmployeeCreate>

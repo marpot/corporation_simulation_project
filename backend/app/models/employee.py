@@ -1,6 +1,7 @@
 from enum import Enum as PythonEnum
 
 from sqlalchemy import Boolean, CheckConstraint, Column, Enum, ForeignKey, Integer, String
+from sqlalchemy.orm import relationship
 
 from app.db.base import Base
 
@@ -35,3 +36,11 @@ class Employee(Base):
         index=True,
         nullable=True,
     )
+    department_id = Column(
+        Integer,
+        ForeignKey("departments.id", ondelete="SET NULL"),
+        index=True,
+        nullable=True,
+    )
+
+    department = relationship("Department", back_populates="employees")

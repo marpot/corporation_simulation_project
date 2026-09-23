@@ -1,4 +1,5 @@
 from sqlalchemy import Boolean, CheckConstraint, Column, Integer, String, Text
+from sqlalchemy.orm import relationship
 
 from app.db.base import Base
 
@@ -13,3 +14,5 @@ class Department(Base):
     name = Column(String, unique=True, index=True, nullable=False)
     description = Column(Text, nullable=True)
     active = Column(Boolean, default=True, server_default="true", nullable=False)
+
+    employees = relationship("Employee", back_populates="department")

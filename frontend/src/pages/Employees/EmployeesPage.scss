@@ -52,6 +52,19 @@
     color: $color-danger;
     font-size: 0.8rem;
   }
+
+  &__department-notice {
+    margin: 0 0 1rem;
+    padding: 0.75rem 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    border-left: 3px solid $color-warning;
+    background: $color-warning-soft;
+    color: $color-heading;
+    font-size: 0.8rem;
+  }
 }
 
 .employee-form {
@@ -146,5 +159,6 @@
 
 @media (max-width: 620px) {
   .employees-page__heading-actions { width: 100%; align-items: stretch; flex-direction: column; }
+  .employees-page__department-notice { align-items: stretch; flex-direction: column; }
   .employee-form__fields { grid-template-columns: 1fr; }
 }
