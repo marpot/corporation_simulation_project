@@ -30,6 +30,9 @@ const AdminLayout = lazy(() =>
 const AdminOverviewPage = lazy(() =>
   import('./pages/AdminOverview/AdminOverviewPage').then((module) => ({ default: module.AdminOverviewPage })),
 )
+const AdminUsersPage = lazy(() =>
+  import('./pages/AdminUsers/AdminUsersPage').then((module) => ({ default: module.AdminUsersPage })),
+)
 
 function App() {
   const { t } = useLanguage()
@@ -46,6 +49,7 @@ function App() {
         <Route element={<AdminRoute />}>
           <Route path="admin" element={<AdminLayout />}>
             <Route index element={<AdminOverviewPage />} />
+            <Route path="users" element={<AdminUsersPage />} />
           </Route>
         </Route>
         <Route element={user ? <DashboardLayout /> : <Navigate to="/login" replace />}>

@@ -8,12 +8,13 @@ type AdminNavigationKey = 'users' | 'employees' | 'departments' | 'projects'
 interface PlannedNavigationItem {
   key: AdminNavigationKey
   icon: ReactNode
+  to?: string
 }
 
 const sections: Array<{ key: 'authentication' | 'organization' | 'projectManagement'; items: PlannedNavigationItem[] }> = [
   {
     key: 'authentication',
-    items: [{ key: 'users', icon: <><circle cx="12" cy="8" r="3.25" /><path d="M5.5 20v-1.5A6.5 6.5 0 0 1 12 12a6.5 6.5 0 0 1 6.5 6.5V20" /></> }],
+    items: [{ key: 'users', to: '/admin/users', icon: <><circle cx="12" cy="8" r="3.25" /><path d="M5.5 20v-1.5A6.5 6.5 0 0 1 12 12a6.5 6.5 0 0 1 6.5 6.5V20" /></> }],
   },
   {
     key: 'organization',
@@ -52,9 +53,18 @@ export function AdminSidebar() {
         </NavLink>
 
         {sections.map((section) => (
-          <section className="admin-sidebar__section" key={section.key} aria-labelledby={`admin-nav-${section.key}`}>
+          <section className={`admin-sidebar__section admin-sidebar__section--${section.key}`} key={section.key} aria-labelledby={`admin-nav-${section.key}`}>
             <h2 id={`admin-nav-${section.key}`}>{t.admin.sections[section.key]}</h2>
-            {section.items.map((item) => (
+            {section.items.map((item) => item.to ? (
+              <NavLink
+                className={({ isActive }) => `admin-sidebar__link${isActive ? ' admin-sidebar__link--active' : ''}`}
+                key={item.key}
+                to={item.to}
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">{item.icon}</svg>
+                <span>{t.admin.modules[item.key].title}</span>
+              </NavLink>
+            ) : (
               <div className="admin-sidebar__link admin-sidebar__link--disabled" key={item.key} aria-disabled="true">
                 <svg viewBox="0 0 24 24" aria-hidden="true">{item.icon}</svg>
                 <span>{t.admin.modules[item.key].title}</span>

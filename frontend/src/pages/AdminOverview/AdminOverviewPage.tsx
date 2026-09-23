@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { Link } from 'react-router-dom'
 import { useAuth } from '../../auth/useAuth'
 import { useLanguage } from '../../i18n/useLanguage'
 import './AdminOverviewPage.scss'
@@ -56,22 +57,32 @@ export function AdminOverviewPage() {
         </div>
 
         <div className="admin-overview__module-grid">
-          {moduleKeys.map((key) => (
-            <article className="admin-module-card" key={key}>
+          {moduleKeys.map((key) => {
+            const cardContent = (
+              <>
               <div className="admin-module-card__topline">
                 <span className="admin-module-card__icon" aria-hidden="true">
                   <svg viewBox="0 0 24 24">{moduleIcons[key]}</svg>
                 </span>
-                <span className="admin-module-card__badge">{t.admin.comingSoon}</span>
+                <span className="admin-module-card__badge">{key === 'users' ? t.admin.available : t.admin.comingSoon}</span>
               </div>
               <h4>{t.admin.modules[key].title}</h4>
               <p>{t.admin.modules[key].description}</p>
               <div className="admin-module-card__footer" aria-hidden="true">
-                <span>{t.admin.moduleUnavailable}</span>
+                <span>{key === 'users' ? t.admin.openModule : t.admin.moduleUnavailable}</span>
                 <svg viewBox="0 0 24 24"><path d="m9 18 6-6-6-6" /></svg>
               </div>
-            </article>
-          ))}
+              </>
+            )
+
+            return key === 'users' ? (
+              <Link className="admin-module-card admin-module-card--available" key={key} to="/admin/users">
+                {cardContent}
+              </Link>
+            ) : (
+              <article className="admin-module-card" key={key}>{cardContent}</article>
+            )
+          })}
         </div>
       </section>
     </div>

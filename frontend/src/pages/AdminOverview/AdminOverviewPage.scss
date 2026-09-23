@@ -103,6 +103,7 @@
   flex-direction: column;
   background: white;
   box-shadow: 0 0.25rem 1rem rgba(27, 48, 73, 0.035);
+  text-decoration: none;
   transition: border-color 150ms ease, transform 150ms ease, box-shadow 150ms ease;
 
   &:hover { border-color: #b9c9da; transform: translateY(-2px); box-shadow: 0 0.6rem 1.5rem rgba(27, 48, 73, 0.07); }
@@ -125,6 +126,14 @@
     font-weight: 700;
 
     svg { width: 1rem; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  }
+
+  &--available {
+    border-top: 3px solid $color-primary;
+
+    .admin-module-card__badge { background: #eaf5f0; color: #176a50; }
+    .admin-module-card__footer { color: $color-primary-dark; }
+    &:focus-visible { outline: 2px solid $color-primary; outline-offset: 3px; }
   }
 }
 

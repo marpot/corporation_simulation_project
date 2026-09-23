@@ -136,6 +136,8 @@
     &__navigation { margin-left: auto; padding: 0; }
     &__navigation > .admin-sidebar__link { width: 2.65rem; min-height: 2.65rem; padding: 0; border: 1px solid rgba(255, 255, 255, 0.13); }
     &__section { display: none; }
+    &__section--authentication { margin: 0; display: block; }
+    &__section--authentication .admin-sidebar__link { width: 2.65rem; min-height: 2.65rem; padding: 0; border: 1px solid rgba(255, 255, 255, 0.13); }
     &__return { width: 2.65rem; min-height: 2.65rem; margin: 0 0 0 0.5rem; }
   }
 }
