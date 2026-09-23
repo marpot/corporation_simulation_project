@@ -1,0 +1,145 @@
+@use '../../styles/variables' as *;
+
+.capacity-page {
+  &__heading { align-items: center; }
+
+  &__state {
+    min-height: 12rem;
+    padding: 2rem;
+    display: grid;
+    place-items: center;
+    align-content: center;
+    gap: 0.55rem;
+    color: $color-text-muted;
+    text-align: center;
+
+    strong { color: $color-heading; font-size: 0.95rem; }
+    span { max-width: 28rem; font-size: 0.82rem; }
+    button {
+      min-height: 2.3rem;
+      margin-top: 0.3rem;
+      padding: 0.45rem 0.8rem;
+      border: 1px solid $color-primary-dark;
+      background: $color-primary-dark;
+      color: white;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+
+      &:hover { background: $color-primary; }
+      &:focus-visible { outline: 2px solid $color-primary; outline-offset: 2px; }
+    }
+  }
+}
+
+.capacity-date {
+  min-width: 12rem;
+  display: grid;
+  gap: 0.35rem;
+
+  span { color: $color-heading; font-size: 0.75rem; font-weight: 700; }
+  input {
+    min-height: 2.55rem;
+    padding: 0.5rem 0.65rem;
+    border: 1px solid $color-border-strong;
+    border-radius: $radius-surface;
+    background: $color-surface;
+    color: $color-heading;
+    font: inherit;
+    font-size: 0.84rem;
+
+    &:focus { border-color: $color-primary; outline: 3px solid rgba($color-primary, 0.12); }
+  }
+}
+
+.capacity-summary {
+  margin-bottom: 1rem;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
+
+  &__item {
+    min-height: 5rem;
+    padding: 0.85rem 1rem;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    border: 1px solid $color-border;
+    border-top: 3px solid $color-primary;
+    border-radius: $radius-surface;
+    background: $color-surface;
+    box-shadow: $shadow-surface;
+
+    span { color: $color-text-muted; font-size: 0.76rem; font-weight: 650; }
+    strong { color: $color-heading; font-size: 1.65rem; line-height: 1; }
+    &--available { border-top-color: $color-success; }
+    &--full { border-top-color: $color-primary; }
+    &--overallocated { border-top-color: $color-danger; }
+  }
+}
+
+.capacity-table {
+  &__percent { color: $color-heading; font-variant-numeric: tabular-nums; }
+  td:nth-child(3) { font-variant-numeric: tabular-nums; }
+}
+
+.capacity-status {
+  width: fit-content;
+  padding: 0.3rem 0.55rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: $color-primary-soft;
+  color: $color-primary-dark;
+  font-size: 0.72rem;
+  font-weight: 750;
+  line-height: 1.2;
+  white-space: nowrap;
+
+  &::before { content: ''; width: 0.38rem; height: 0.38rem; background: currentColor; }
+  &--available { background: #eaf5f0; color: #176a50; }
+  &--fully-allocated { background: $color-primary-soft; color: $color-primary-dark; }
+  &--overallocated { background: #fdecef; color: $color-danger; }
+}
+
+@media (max-width: $breakpoint-tablet) {
+  .capacity-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 620px) {
+  .capacity-page__heading { align-items: stretch; }
+  .capacity-date { width: 100%; }
+  .capacity-summary { grid-template-columns: 1fr 1fr; }
+  .capacity-summary__item { min-height: 4.5rem; align-items: flex-start; flex-direction: column; gap: 0.45rem; }
+
+  .capacity-register .table-scroll { overflow: visible; }
+  .capacity-table {
+    thead {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+    &, tbody, tr, td { display: block; width: 100%; }
+    tbody { padding: 0 0.85rem 0.85rem; }
+    tr { margin-top: 0.85rem; border: 1px solid $color-border; }
+    td {
+      padding: 0.62rem 0.75rem;
+      display: grid;
+      grid-template-columns: minmax(7.5rem, 0.8fr) 1fr;
+      align-items: center;
+      gap: 0.75rem;
+      white-space: normal;
+      text-align: right;
+
+      &::before { content: attr(data-label); color: $color-text-muted; font-size: 0.7rem; font-weight: 750; letter-spacing: 0.05em; text-align: left; text-transform: uppercase; }
+      .table-primary, .capacity-status { justify-self: end; text-align: right; }
+    }
+  }
+}
