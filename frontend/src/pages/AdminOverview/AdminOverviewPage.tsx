@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
-import { useAuth } from '../../auth/useAuth'
-import { useLanguage } from '../../i18n/useLanguage'
+import { useAuth } from '@/auth/useAuth'
+import { useLanguage } from '@/i18n/useLanguage'
 import './AdminOverviewPage.scss'
 
 type AdminModuleKey = 'users' | 'employees' | 'departments' | 'projects'

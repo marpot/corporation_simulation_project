@@ -1,5 +1,5 @@
-@use '../../styles/mixins' as *;
-@use '../../styles/variables' as *;
+@use '@/styles/mixins' as *;
+@use '@/styles/variables' as *;
 
 .dashboard-page {
   &__stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.75rem; }

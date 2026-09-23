@@ -1,5 +1,5 @@
-import type { DashboardStatistic } from '../../types/domain'
-import { useLanguage } from '../../i18n/useLanguage'
+import type { DashboardStatistic } from '@/types/domain'
+import { useLanguage } from '@/i18n/useLanguage'
 import './StatCard.scss'
 
 interface StatCardProps {

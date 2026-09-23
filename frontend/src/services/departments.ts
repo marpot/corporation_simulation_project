@@ -1,5 +1,5 @@
 import { authenticatedRequest } from './api'
-import type { Department, DepartmentCreate, DepartmentUpdate } from '../types/department'
+import type { Department, DepartmentCreate, DepartmentUpdate } from '@/types/department'
 
 export function getDepartments(): Promise<Department[]> {
   return authenticatedRequest<Department[]>('/departments')

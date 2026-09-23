@@ -1,5 +1,5 @@
 import { authenticatedRequest } from './api'
-import type { Assignment, AssignmentCreate, AssignmentUpdate } from '../types/assignment'
+import type { Assignment, AssignmentCreate, AssignmentUpdate } from '@/types/assignment'
 
 export function getAssignments(): Promise<Assignment[]> {
   return authenticatedRequest<Assignment[]>('/assignments')

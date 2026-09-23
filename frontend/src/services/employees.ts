@@ -1,5 +1,5 @@
 import { authenticatedRequest } from './api'
-import type { Employee, EmployeeCreate, EmployeeUpdate } from '../types/employee'
+import type { Employee, EmployeeCreate, EmployeeUpdate } from '@/types/employee'
 
 export function getEmployees(): Promise<Employee[]> {
   return authenticatedRequest<Employee[]>('/employees')

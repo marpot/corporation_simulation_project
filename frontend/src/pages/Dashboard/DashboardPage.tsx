@@ -1,13 +1,13 @@
-import { StatCard } from '../../components/StatCard/StatCard'
-import { useLanguage } from '../../i18n/useLanguage'
-import { formatDate, formatMessage } from '../../i18n/translations'
+import { StatCard } from '@/components/StatCard/StatCard'
+import { useLanguage } from '@/i18n/useLanguage'
+import { formatDate, formatMessage } from '@/i18n/translations'
 import {
   allocationSummary,
   dashboardStatistics,
   departments,
   operationalActivities,
   projects,
-} from '../../data/mockData'
+} from '@/data/mockData'
 import './DashboardPage.scss'
 
 function statusClass(status: string) {

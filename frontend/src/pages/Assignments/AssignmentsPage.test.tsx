@@ -2,32 +2,32 @@ import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { AuthContext, type AuthContextValue } from '../../auth/auth-context'
-import { LanguageContext, type LanguageContextValue } from '../../i18n/language-context'
-import { translations } from '../../i18n/translations'
+import { AuthContext, type AuthContextValue } from '@/auth/auth-context'
+import { LanguageContext, type LanguageContextValue } from '@/i18n/language-context'
+import { translations } from '@/i18n/translations'
 import {
   createAssignment,
   deleteAssignment,
   getAssignments,
   updateAssignment,
-} from '../../services/assignments'
-import { getEmployees } from '../../services/employees'
-import { getProjects } from '../../services/projects'
-import type { Assignment } from '../../types/assignment'
-import type { User, UserRole } from '../../types/auth'
-import type { Employee } from '../../types/employee'
-import type { Project } from '../../types/project'
+} from '@/services/assignments'
+import { getEmployees } from '@/services/employees'
+import { getProjects } from '@/services/projects'
+import type { Assignment } from '@/types/assignment'
+import type { User, UserRole } from '@/types/auth'
+import type { Employee } from '@/types/employee'
+import type { Project } from '@/types/project'
 import { AssignmentsPage } from './AssignmentsPage'
 
-vi.mock('../../services/assignments', () => ({
+vi.mock('@/services/assignments', () => ({
   createAssignment: vi.fn(),
   deleteAssignment: vi.fn(),
   getAssignments: vi.fn(),
   updateAssignment: vi.fn(),
 }))
 
-vi.mock('../../services/employees', () => ({ getEmployees: vi.fn() }))
-vi.mock('../../services/projects', () => ({ getProjects: vi.fn() }))
+vi.mock('@/services/employees', () => ({ getEmployees: vi.fn() }))
+vi.mock('@/services/projects', () => ({ getProjects: vi.fn() }))
 
 const createAssignmentMock = vi.mocked(createAssignment)
 const deleteAssignmentMock = vi.mocked(deleteAssignment)

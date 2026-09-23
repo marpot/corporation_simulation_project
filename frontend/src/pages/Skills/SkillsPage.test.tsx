@@ -2,12 +2,12 @@ import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { AuthContext, type AuthContextValue } from '../../auth/auth-context'
-import { LanguageContext, type LanguageContextValue } from '../../i18n/language-context'
-import { translations } from '../../i18n/translations'
-import { ApiError } from '../../services/api'
-import { getEmployees } from '../../services/employees'
-import { getProjects } from '../../services/projects'
+import { AuthContext, type AuthContextValue } from '@/auth/auth-context'
+import { LanguageContext, type LanguageContextValue } from '@/i18n/language-context'
+import { translations } from '@/i18n/translations'
+import { ApiError } from '@/services/api'
+import { getEmployees } from '@/services/employees'
+import { getProjects } from '@/services/projects'
 import {
   createEmployeeSkill,
   createProjectSkill,
@@ -21,16 +21,16 @@ import {
   updateEmployeeSkill,
   updateProjectSkill,
   updateSkill,
-} from '../../services/skills'
-import type { User, UserRole } from '../../types/auth'
-import type { Employee } from '../../types/employee'
-import type { Project } from '../../types/project'
-import type { EmployeeSkill, ProjectSkill, Skill } from '../../types/skill'
+} from '@/services/skills'
+import type { User, UserRole } from '@/types/auth'
+import type { Employee } from '@/types/employee'
+import type { Project } from '@/types/project'
+import type { EmployeeSkill, ProjectSkill, Skill } from '@/types/skill'
 import { SkillsPage } from './SkillsPage'
 
-vi.mock('../../services/employees', () => ({ getEmployees: vi.fn() }))
-vi.mock('../../services/projects', () => ({ getProjects: vi.fn() }))
-vi.mock('../../services/skills', () => ({
+vi.mock('@/services/employees', () => ({ getEmployees: vi.fn() }))
+vi.mock('@/services/projects', () => ({ getProjects: vi.fn() }))
+vi.mock('@/services/skills', () => ({
   createEmployeeSkill: vi.fn(), createProjectSkill: vi.fn(), createSkill: vi.fn(),
   deleteEmployeeSkill: vi.fn(), deleteProjectSkill: vi.fn(), deleteSkill: vi.fn(),
   getEmployeeSkills: vi.fn(), getProjectSkills: vi.fn(), getSkills: vi.fn(),

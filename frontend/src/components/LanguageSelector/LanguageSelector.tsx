@@ -1,5 +1,5 @@
-import { useLanguage } from '../../i18n/useLanguage'
-import type { Language } from '../../i18n/translations'
+import { useLanguage } from '@/i18n/useLanguage'
+import type { Language } from '@/i18n/translations'
 import './LanguageSelector.scss'
 
 const languageOptions: Array<{ code: Language; label: 'EN' | 'PL' }> = [

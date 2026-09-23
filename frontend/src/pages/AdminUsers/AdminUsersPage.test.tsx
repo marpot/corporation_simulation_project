@@ -2,21 +2,21 @@ import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { AuthContext, type AuthContextValue } from '../../auth/auth-context'
-import { LanguageContext, type LanguageContextValue } from '../../i18n/language-context'
-import { translations, type Language } from '../../i18n/translations'
+import { AuthContext, type AuthContextValue } from '@/auth/auth-context'
+import { LanguageContext, type LanguageContextValue } from '@/i18n/language-context'
+import { translations, type Language } from '@/i18n/translations'
 import {
   changeAdminUserPassword,
   createAdminUser,
   getAdminUsers,
   updateAdminUser,
-} from '../../services/adminUsers'
-import { ApiError } from '../../services/api'
-import type { AdminUser } from '../../types/adminUser'
-import type { User } from '../../types/auth'
+} from '@/services/adminUsers'
+import { ApiError } from '@/services/api'
+import type { AdminUser } from '@/types/adminUser'
+import type { User } from '@/types/auth'
 import { AdminUsersPage } from './AdminUsersPage'
 
-vi.mock('../../services/adminUsers', () => ({
+vi.mock('@/services/adminUsers', () => ({
   changeAdminUserPassword: vi.fn(),
   createAdminUser: vi.fn(),
   getAdminUsers: vi.fn(),

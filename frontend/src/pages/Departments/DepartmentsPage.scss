@@ -1,4 +1,4 @@
-@use '../../styles/variables' as *;
+@use '@/styles/variables' as *;
 
 .departments-page {
   &__heading-actions { display: flex; align-items: center; gap: 0.75rem; }

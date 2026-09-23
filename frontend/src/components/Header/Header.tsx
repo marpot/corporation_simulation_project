@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom'
-import { useAuth } from '../../auth/useAuth'
-import { LanguageSelector } from '../LanguageSelector/LanguageSelector'
-import { useLanguage } from '../../i18n/useLanguage'
+import { useAuth } from '@/auth/useAuth'
+import { LanguageSelector } from '@/components/LanguageSelector/LanguageSelector'
+import { useLanguage } from '@/i18n/useLanguage'
 import './Header.scss'
 
 const pageTitleKeys: Record<string, 'dashboard' | 'employees' | 'departments' | 'projects' | 'assignments' | 'skills' | 'capacity'> = {

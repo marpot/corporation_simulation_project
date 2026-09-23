@@ -2,15 +2,15 @@ import { fireEvent, render, screen, waitFor, within } from '@testing-library/rea
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { AuthContext, type AuthContextValue } from '../../auth/auth-context'
-import { LanguageContext, type LanguageContextValue } from '../../i18n/language-context'
-import { translations } from '../../i18n/translations'
-import { getEmployeeCapacities } from '../../services/capacity'
-import type { User, UserRole } from '../../types/auth'
-import type { EmployeeCapacity } from '../../types/capacity'
+import { AuthContext, type AuthContextValue } from '@/auth/auth-context'
+import { LanguageContext, type LanguageContextValue } from '@/i18n/language-context'
+import { translations } from '@/i18n/translations'
+import { getEmployeeCapacities } from '@/services/capacity'
+import type { User, UserRole } from '@/types/auth'
+import type { EmployeeCapacity } from '@/types/capacity'
 import { CapacityPage } from './CapacityPage'
 
-vi.mock('../../services/capacity', () => ({ getEmployeeCapacities: vi.fn() }))
+vi.mock('@/services/capacity', () => ({ getEmployeeCapacities: vi.fn() }))
 
 const getEmployeeCapacitiesMock = vi.mocked(getEmployeeCapacities)
 

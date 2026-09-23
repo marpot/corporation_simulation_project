@@ -1,20 +1,20 @@
 import { type FormEvent, useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../../auth/useAuth'
-import { useLanguage } from '../../i18n/useLanguage'
-import { formatDate, formatMessage } from '../../i18n/translations'
+import { useAuth } from '@/auth/useAuth'
+import { useLanguage } from '@/i18n/useLanguage'
+import { formatDate, formatMessage } from '@/i18n/translations'
 import {
   createAssignment,
   deleteAssignment,
   getAssignments,
   updateAssignment,
-} from '../../services/assignments'
-import { ApiError } from '../../services/api'
-import { getEmployees } from '../../services/employees'
-import { getProjects } from '../../services/projects'
-import type { Assignment, AssignmentCreate } from '../../types/assignment'
-import type { Employee } from '../../types/employee'
-import type { Project } from '../../types/project'
+} from '@/services/assignments'
+import { ApiError } from '@/services/api'
+import { getEmployees } from '@/services/employees'
+import { getProjects } from '@/services/projects'
+import type { Assignment, AssignmentCreate } from '@/types/assignment'
+import type { Employee } from '@/types/employee'
+import type { Project } from '@/types/project'
 import './AssignmentsPage.scss'
 
 interface AssignmentFormValues {

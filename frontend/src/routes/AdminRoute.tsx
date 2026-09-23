@@ -1,5 +1,5 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
-import { useAuth } from '../auth/useAuth'
+import { useAuth } from '@/auth/useAuth'
 
 export function AdminRoute() {
   const { user } = useAuth()
