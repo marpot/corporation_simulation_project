@@ -18,6 +18,7 @@ class EmployeeCreate(BaseModel):
     weekly_capacity: PositiveCapacity
     active: bool = True
     user_id: PositiveId | None = None
+    department_id: PositiveId | None = None
 
 
 class EmployeeUpdate(BaseModel):
@@ -28,6 +29,7 @@ class EmployeeUpdate(BaseModel):
     weekly_capacity: PositiveCapacity | None = None
     active: bool | None = None
     user_id: PositiveId | None = None
+    department_id: PositiveId | None = None
 
     @field_validator(
         "first_name",
@@ -56,3 +58,4 @@ class EmployeeRead(BaseModel):
     weekly_capacity: int
     active: bool
     user_id: int | None
+    department_id: int | None

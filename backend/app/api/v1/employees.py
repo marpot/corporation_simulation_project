@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 
 from app.api.dependencies import get_current_user, require_roles
 from app.db.session import get_db
+from app.models.department import Department
 from app.models.employee import Employee
 from app.models.user import User, UserRole
 from app.schemas.employee import EmployeeCreate, EmployeeRead, EmployeeUpdate
@@ -23,6 +24,14 @@ def get_employee_or_404(db: Session, employee_id: int) -> Employee:
             detail="Employee not found",
         )
     return employee
+
+
+def validate_department(db: Session, department_id: int | None) -> None:
+    if department_id is not None and db.get(Department, department_id) is None:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail="Department not found",
+        )
 
 
 def commit_employee(db: Session, employee: Employee) -> Employee:
@@ -61,6 +70,7 @@ def create_employee(
     db: Annotated[Session, Depends(get_db)],
     _current_user: Annotated[User, Depends(employee_manager)],
 ) -> Employee:
+    validate_department(db, employee_data.department_id)
     employee = Employee(**employee_data.model_dump())
     db.add(employee)
     return commit_employee(db, employee)
@@ -74,7 +84,10 @@ def update_employee(
     _current_user: Annotated[User, Depends(employee_manager)],
 ) -> Employee:
     employee = get_employee_or_404(db, employee_id)
-    for field, value in employee_data.model_dump(exclude_unset=True).items():
+    update_data = employee_data.model_dump(exclude_unset=True)
+    if "department_id" in update_data:
+        validate_department(db, update_data["department_id"])
+    for field, value in update_data.items():
         setattr(employee, field, value)
     return commit_employee(db, employee)
 
