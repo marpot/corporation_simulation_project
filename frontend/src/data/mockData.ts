@@ -4,7 +4,7 @@ import type {
   AllocationSummary,
   OperationalActivity,
   Project,
-} from '../types/domain'
+} from '@/types/domain'
 
 export const dashboardStatistics: DashboardStatistic[] = [
   { id: 'employees', value: 248 },

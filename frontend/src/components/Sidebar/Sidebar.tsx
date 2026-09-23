@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import { NavLink } from 'react-router-dom'
-import { useLanguage } from '../../i18n/useLanguage'
+import { useLanguage } from '@/i18n/useLanguage'
 import './Sidebar.scss'
 
 interface NavigationItem {

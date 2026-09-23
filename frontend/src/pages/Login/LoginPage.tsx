@@ -1,9 +1,9 @@
 import { type FormEvent, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../../auth/useAuth'
-import { LanguageSelector } from '../../components/LanguageSelector/LanguageSelector'
-import { useLanguage } from '../../i18n/useLanguage'
-import { AuthApiError } from '../../services/auth'
+import { useAuth } from '@/auth/useAuth'
+import { LanguageSelector } from '@/components/LanguageSelector/LanguageSelector'
+import { useLanguage } from '@/i18n/useLanguage'
+import { AuthApiError } from '@/services/auth'
 import './LoginPage.scss'
 
 interface LoginErrors {

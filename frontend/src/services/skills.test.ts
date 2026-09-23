@@ -6,7 +6,7 @@ import type {
   ProjectSkillUpdate,
   SkillCreate,
   SkillUpdate,
-} from '../types/skill'
+} from '@/types/skill'
 import { authenticatedRequest } from './api'
 import {
   createEmployeeSkill,

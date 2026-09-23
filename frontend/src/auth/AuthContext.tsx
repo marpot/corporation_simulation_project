@@ -5,8 +5,8 @@ import {
   requestAccessToken,
   requestCurrentUser,
   storeAccessToken,
-} from '../services/auth'
-import type { User } from '../types/auth'
+} from '@/services/auth'
+import type { User } from '@/types/auth'
 import { AuthContext } from './auth-context'
 
 interface AuthProviderProps {

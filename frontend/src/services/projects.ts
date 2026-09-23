@@ -1,5 +1,5 @@
 import { authenticatedRequest } from './api'
-import type { Project, ProjectCreate, ProjectUpdate } from '../types/project'
+import type { Project, ProjectCreate, ProjectUpdate } from '@/types/project'
 
 export function getProjects(): Promise<Project[]> {
   return authenticatedRequest<Project[]>('/projects')

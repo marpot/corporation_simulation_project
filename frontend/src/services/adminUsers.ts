@@ -3,7 +3,7 @@ import type {
   AdminUserCreate,
   AdminUserPasswordUpdate,
   AdminUserUpdate,
-} from '../types/adminUser'
+} from '@/types/adminUser'
 import { authenticatedRequest } from './api'
 
 const ADMIN_USERS_PATH = '/admin/users'

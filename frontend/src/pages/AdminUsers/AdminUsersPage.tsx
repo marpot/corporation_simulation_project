@@ -1,16 +1,16 @@
 import { type FormEvent, useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../../auth/useAuth'
-import { useLanguage } from '../../i18n/useLanguage'
-import { formatMessage } from '../../i18n/translations'
+import { useAuth } from '@/auth/useAuth'
+import { useLanguage } from '@/i18n/useLanguage'
+import { formatMessage } from '@/i18n/translations'
 import {
   changeAdminUserPassword,
   createAdminUser,
   getAdminUsers,
   updateAdminUser,
-} from '../../services/adminUsers'
-import { ApiError } from '../../services/api'
-import type { AdminUser, AdminUserCreate, AdminUserRole, AdminUserUpdate } from '../../types/adminUser'
+} from '@/services/adminUsers'
+import { ApiError } from '@/services/api'
+import type { AdminUser, AdminUserCreate, AdminUserRole, AdminUserUpdate } from '@/types/adminUser'
 import './AdminUsersPage.scss'
 
 const roles: AdminUserRole[] = ['ADMIN', 'MANAGER', 'EMPLOYEE']

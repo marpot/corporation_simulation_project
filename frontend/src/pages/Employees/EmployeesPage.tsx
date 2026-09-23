@@ -1,18 +1,18 @@
 import { type FormEvent, useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../../auth/useAuth'
-import { useLanguage } from '../../i18n/useLanguage'
-import { formatMessage } from '../../i18n/translations'
-import { ApiError } from '../../services/api'
-import { getDepartments } from '../../services/departments'
+import { useAuth } from '@/auth/useAuth'
+import { useLanguage } from '@/i18n/useLanguage'
+import { formatMessage } from '@/i18n/translations'
+import { ApiError } from '@/services/api'
+import { getDepartments } from '@/services/departments'
 import {
   createEmployee,
   deleteEmployee,
   getEmployees,
   updateEmployee,
-} from '../../services/employees'
-import type { Employee, EmployeeCreate, Seniority } from '../../types/employee'
-import type { Department } from '../../types/department'
+} from '@/services/employees'
+import type { Employee, EmployeeCreate, Seniority } from '@/types/employee'
+import type { Department } from '@/types/department'
 import './EmployeesPage.scss'
 
 interface EmployeeFormValues {

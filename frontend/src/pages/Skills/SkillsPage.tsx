@@ -1,11 +1,11 @@
 import { type FormEvent, useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../../auth/useAuth'
-import { useLanguage } from '../../i18n/useLanguage'
-import { formatMessage } from '../../i18n/translations'
-import { ApiError } from '../../services/api'
-import { getEmployees } from '../../services/employees'
-import { getProjects } from '../../services/projects'
+import { useAuth } from '@/auth/useAuth'
+import { useLanguage } from '@/i18n/useLanguage'
+import { formatMessage } from '@/i18n/translations'
+import { ApiError } from '@/services/api'
+import { getEmployees } from '@/services/employees'
+import { getProjects } from '@/services/projects'
 import {
   createEmployeeSkill,
   createProjectSkill,
@@ -19,10 +19,10 @@ import {
   updateEmployeeSkill,
   updateProjectSkill,
   updateSkill,
-} from '../../services/skills'
-import type { Employee } from '../../types/employee'
-import type { Project } from '../../types/project'
-import type { EmployeeSkill, ProjectSkill, Skill, SkillLevel } from '../../types/skill'
+} from '@/services/skills'
+import type { Employee } from '@/types/employee'
+import type { Project } from '@/types/project'
+import type { EmployeeSkill, ProjectSkill, Skill, SkillLevel } from '@/types/skill'
 import './SkillsPage.scss'
 
 const skillLevels: SkillLevel[] = ['BEGINNER', 'INTERMEDIATE', 'ADVANCED', 'EXPERT']

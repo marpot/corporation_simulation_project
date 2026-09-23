@@ -2,26 +2,26 @@ import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { AuthContext, type AuthContextValue } from '../../auth/auth-context'
-import { LanguageContext, type LanguageContextValue } from '../../i18n/language-context'
-import { translations, type Language } from '../../i18n/translations'
-import { getDepartments } from '../../services/departments'
+import { AuthContext, type AuthContextValue } from '@/auth/auth-context'
+import { LanguageContext, type LanguageContextValue } from '@/i18n/language-context'
+import { translations, type Language } from '@/i18n/translations'
+import { getDepartments } from '@/services/departments'
 import {
   createEmployee,
   deleteEmployee,
   getEmployees,
   updateEmployee,
-} from '../../services/employees'
-import type { Department } from '../../types/department'
-import type { Employee } from '../../types/employee'
-import type { User } from '../../types/auth'
+} from '@/services/employees'
+import type { Department } from '@/types/department'
+import type { Employee } from '@/types/employee'
+import type { User } from '@/types/auth'
 import { EmployeesPage } from './EmployeesPage'
 
-vi.mock('../../services/departments', () => ({
+vi.mock('@/services/departments', () => ({
   getDepartments: vi.fn(),
 }))
 
-vi.mock('../../services/employees', () => ({
+vi.mock('@/services/employees', () => ({
   createEmployee: vi.fn(),
   deleteEmployee: vi.fn(),
   getEmployees: vi.fn(),

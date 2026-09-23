@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../../auth/useAuth'
-import { useLanguage } from '../../i18n/useLanguage'
-import { LanguageSelector } from '../LanguageSelector/LanguageSelector'
+import { useAuth } from '@/auth/useAuth'
+import { useLanguage } from '@/i18n/useLanguage'
+import { LanguageSelector } from '@/components/LanguageSelector/LanguageSelector'
 import './AdminHeader.scss'
 
 export function AdminHeader() {

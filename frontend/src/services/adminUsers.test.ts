@@ -4,7 +4,7 @@ import type {
   AdminUserCreate,
   AdminUserPasswordUpdate,
   AdminUserUpdate,
-} from '../types/adminUser'
+} from '@/types/adminUser'
 import { authenticatedRequest } from './api'
 import {
   changeAdminUserPassword,

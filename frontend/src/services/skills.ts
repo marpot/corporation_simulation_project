@@ -9,7 +9,7 @@ import type {
   Skill,
   SkillCreate,
   SkillUpdate,
-} from '../types/skill'
+} from '@/types/skill'
 
 export function getSkills(): Promise<Skill[]> {
   return authenticatedRequest<Skill[]>('/skills')

@@ -1,11 +1,11 @@
 import { type FormEvent, useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../../auth/useAuth'
-import { useLanguage } from '../../i18n/useLanguage'
-import { formatDate, formatMessage } from '../../i18n/translations'
-import { ApiError } from '../../services/api'
-import { createProject, deleteProject, getProjects, updateProject } from '../../services/projects'
-import type { Project, ProjectCreate, ProjectStatus } from '../../types/project'
+import { useAuth } from '@/auth/useAuth'
+import { useLanguage } from '@/i18n/useLanguage'
+import { formatDate, formatMessage } from '@/i18n/translations'
+import { ApiError } from '@/services/api'
+import { createProject, deleteProject, getProjects, updateProject } from '@/services/projects'
+import type { Project, ProjectCreate, ProjectStatus } from '@/types/project'
 import './ProjectsPage.scss'
 
 interface ProjectFormValues {

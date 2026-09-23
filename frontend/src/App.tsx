@@ -1,46 +1,46 @@
 import { lazy, Suspense } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
-import { useAuth } from './auth/useAuth'
-import { useLanguage } from './i18n/useLanguage'
+import { useAuth } from '@/auth/useAuth'
+import { useLanguage } from '@/i18n/useLanguage'
 
 const DashboardLayout = lazy(() =>
-  import('./layouts/DashboardLayout/DashboardLayout').then((module) => ({ default: module.DashboardLayout })),
+  import('@/layouts/DashboardLayout/DashboardLayout').then((module) => ({ default: module.DashboardLayout })),
 )
 const DashboardPage = lazy(() =>
-  import('./pages/Dashboard/DashboardPage').then((module) => ({ default: module.DashboardPage })),
+  import('@/pages/Dashboard/DashboardPage').then((module) => ({ default: module.DashboardPage })),
 )
 const EmployeesPage = lazy(() =>
-  import('./pages/Employees/EmployeesPage').then((module) => ({ default: module.EmployeesPage })),
+  import('@/pages/Employees/EmployeesPage').then((module) => ({ default: module.EmployeesPage })),
 )
 const DepartmentsPage = lazy(() =>
-  import('./pages/Departments/DepartmentsPage').then((module) => ({ default: module.DepartmentsPage })),
+  import('@/pages/Departments/DepartmentsPage').then((module) => ({ default: module.DepartmentsPage })),
 )
 const ProjectsPage = lazy(() =>
-  import('./pages/Projects/ProjectsPage').then((module) => ({ default: module.ProjectsPage })),
+  import('@/pages/Projects/ProjectsPage').then((module) => ({ default: module.ProjectsPage })),
 )
 const AssignmentsPage = lazy(() =>
-  import('./pages/Assignments/AssignmentsPage').then((module) => ({ default: module.AssignmentsPage })),
+  import('@/pages/Assignments/AssignmentsPage').then((module) => ({ default: module.AssignmentsPage })),
 )
 const SkillsPage = lazy(() =>
-  import('./pages/Skills/SkillsPage').then((module) => ({ default: module.SkillsPage })),
+  import('@/pages/Skills/SkillsPage').then((module) => ({ default: module.SkillsPage })),
 )
 const CapacityPage = lazy(() =>
-  import('./pages/Capacity/CapacityPage').then((module) => ({ default: module.CapacityPage })),
+  import('@/pages/Capacity/CapacityPage').then((module) => ({ default: module.CapacityPage })),
 )
 const LoginPage = lazy(() =>
-  import('./pages/Login/LoginPage').then((module) => ({ default: module.LoginPage })),
+  import('@/pages/Login/LoginPage').then((module) => ({ default: module.LoginPage })),
 )
 const AdminRoute = lazy(() =>
-  import('./routes/AdminRoute').then((module) => ({ default: module.AdminRoute })),
+  import('@/routes/AdminRoute').then((module) => ({ default: module.AdminRoute })),
 )
 const AdminLayout = lazy(() =>
-  import('./layouts/AdminLayout/AdminLayout').then((module) => ({ default: module.AdminLayout })),
+  import('@/layouts/AdminLayout/AdminLayout').then((module) => ({ default: module.AdminLayout })),
 )
 const AdminOverviewPage = lazy(() =>
-  import('./pages/AdminOverview/AdminOverviewPage').then((module) => ({ default: module.AdminOverviewPage })),
+  import('@/pages/AdminOverview/AdminOverviewPage').then((module) => ({ default: module.AdminOverviewPage })),
 )
 const AdminUsersPage = lazy(() =>
-  import('./pages/AdminUsers/AdminUsersPage').then((module) => ({ default: module.AdminUsersPage })),
+  import('@/pages/AdminUsers/AdminUsersPage').then((module) => ({ default: module.AdminUsersPage })),
 )
 
 function App() {

@@ -1,16 +1,16 @@
 import { type FormEvent, useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../../auth/useAuth'
-import { useLanguage } from '../../i18n/useLanguage'
-import { formatMessage } from '../../i18n/translations'
-import { ApiError } from '../../services/api'
+import { useAuth } from '@/auth/useAuth'
+import { useLanguage } from '@/i18n/useLanguage'
+import { formatMessage } from '@/i18n/translations'
+import { ApiError } from '@/services/api'
 import {
   createDepartment,
   deleteDepartment,
   getDepartments,
   updateDepartment,
-} from '../../services/departments'
-import type { Department, DepartmentCreate } from '../../types/department'
+} from '@/services/departments'
+import type { Department, DepartmentCreate } from '@/types/department'
 import './DepartmentsPage.scss'
 
 interface DepartmentFormValues {

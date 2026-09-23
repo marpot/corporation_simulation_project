@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { describe, expect, it, vi } from 'vitest'
-import { AuthContext, type AuthContextValue } from '../auth/auth-context'
-import type { User, UserRole } from '../types/auth'
+import { AuthContext, type AuthContextValue } from '@/auth/auth-context'
+import type { User, UserRole } from '@/types/auth'
 import { AdminRoute } from './AdminRoute'
 
 function renderAdminRoute(user: User | null) {

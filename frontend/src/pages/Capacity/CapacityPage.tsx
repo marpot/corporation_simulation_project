@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../../auth/useAuth'
-import { useLanguage } from '../../i18n/useLanguage'
-import { ApiError } from '../../services/api'
-import { getEmployeeCapacities } from '../../services/capacity'
-import type { CapacityStatus, EmployeeCapacity } from '../../types/capacity'
+import { useAuth } from '@/auth/useAuth'
+import { useLanguage } from '@/i18n/useLanguage'
+import { ApiError } from '@/services/api'
+import { getEmployeeCapacities } from '@/services/capacity'
+import type { CapacityStatus, EmployeeCapacity } from '@/types/capacity'
 import './CapacityPage.scss'
 
 function todayAsLocalDate(): string {

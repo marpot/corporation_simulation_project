@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import type { AssignmentCreate, AssignmentUpdate } from '../types/assignment'
+import type { AssignmentCreate, AssignmentUpdate } from '@/types/assignment'
 import { authenticatedRequest } from './api'
 import {
   createAssignment,
