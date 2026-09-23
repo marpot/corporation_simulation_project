@@ -21,6 +21,9 @@ const ProjectsPage = lazy(() =>
 const AssignmentsPage = lazy(() =>
   import('./pages/Assignments/AssignmentsPage').then((module) => ({ default: module.AssignmentsPage })),
 )
+const SkillsPage = lazy(() =>
+  import('./pages/Skills/SkillsPage').then((module) => ({ default: module.SkillsPage })),
+)
 const LoginPage = lazy(() =>
   import('./pages/Login/LoginPage').then((module) => ({ default: module.LoginPage })),
 )
@@ -61,6 +64,7 @@ function App() {
           <Route path="departments" element={<DepartmentsPage />} />
           <Route path="projects" element={<ProjectsPage />} />
           <Route path="assignments" element={<AssignmentsPage />} />
+          <Route path="skills" element={<SkillsPage />} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

@@ -50,3 +50,9 @@ class Employee(Base):
         cascade="all, delete-orphan",
         passive_deletes=True,
     )
+    employee_skills = relationship(
+        "EmployeeSkill",
+        back_populates="employee",
+        cascade="all, delete-orphan",
+        passive_deletes=True,
+    )

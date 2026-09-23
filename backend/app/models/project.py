@@ -37,3 +37,9 @@ class Project(Base):
         cascade="all, delete-orphan",
         passive_deletes=True,
     )
+    project_skills = relationship(
+        "ProjectSkill",
+        back_populates="project",
+        cascade="all, delete-orphan",
+        passive_deletes=True,
+    )
