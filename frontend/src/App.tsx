@@ -21,6 +21,18 @@ const ProjectsPage = lazy(() =>
 const LoginPage = lazy(() =>
   import('./pages/Login/LoginPage').then((module) => ({ default: module.LoginPage })),
 )
+const AdminRoute = lazy(() =>
+  import('./routes/AdminRoute').then((module) => ({ default: module.AdminRoute })),
+)
+const AdminLayout = lazy(() =>
+  import('./layouts/AdminLayout/AdminLayout').then((module) => ({ default: module.AdminLayout })),
+)
+const AdminOverviewPage = lazy(() =>
+  import('./pages/AdminOverview/AdminOverviewPage').then((module) => ({ default: module.AdminOverviewPage })),
+)
+const AdminUsersPage = lazy(() =>
+  import('./pages/AdminUsers/AdminUsersPage').then((module) => ({ default: module.AdminUsersPage })),
+)
 
 function App() {
   const { t } = useLanguage()
@@ -34,6 +46,12 @@ function App() {
     <Suspense fallback={<div className="route-loading" role="status">{t.common.loading}</div>}>
       <Routes>
         <Route path="login" element={user ? <Navigate to="/" replace /> : <LoginPage />} />
+        <Route element={<AdminRoute />}>
+          <Route path="admin" element={<AdminLayout />}>
+            <Route index element={<AdminOverviewPage />} />
+            <Route path="users" element={<AdminUsersPage />} />
+          </Route>
+        </Route>
         <Route element={user ? <DashboardLayout /> : <Navigate to="/login" replace />}>
           <Route index element={<DashboardPage />} />
           <Route path="employees" element={<EmployeesPage />} />

@@ -1,0 +1,143 @@
+@use '../../styles/variables' as *;
+
+.admin-sidebar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  height: 100vh;
+  padding: 1.25rem 0 1rem;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  background: #111b2b;
+  color: #c7d2e0;
+  box-shadow: 0.5rem 0 2rem rgba(22, 32, 45, 0.08);
+
+  &__brand {
+    min-height: 3.7rem;
+    padding: 0 1.4rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+  }
+
+  &__brand-mark {
+    width: 2.55rem;
+    height: 2.55rem;
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    border: 1px solid rgba(127, 173, 229, 0.65);
+    background: rgba(60, 119, 185, 0.16);
+    color: #a8d1ff;
+    font-size: 0.72rem;
+    font-weight: 850;
+    letter-spacing: 0.08em;
+  }
+
+  &__brand-copy {
+    display: grid;
+    line-height: 1.2;
+
+    strong { color: white; font-size: 0.78rem; letter-spacing: 0.12em; }
+    small { margin-top: 0.28rem; color: #8493a7; font-size: 0.72rem; }
+  }
+
+  &__navigation { padding: 1.35rem 0; }
+
+  &__section {
+    margin-top: 1.35rem;
+
+    h2 {
+      margin: 0 1.4rem 0.5rem;
+      color: #73839a;
+      font-size: 0.68rem;
+      font-weight: 750;
+      letter-spacing: 0.11em;
+      line-height: 1.3;
+      text-transform: uppercase;
+    }
+  }
+
+  &__link {
+    min-height: 2.7rem;
+    padding: 0.62rem 1.4rem;
+    border-left: 3px solid transparent;
+    display: flex;
+    align-items: center;
+    gap: 0.72rem;
+    color: #becadc;
+    font-size: 0.86rem;
+    font-weight: 620;
+    text-decoration: none;
+    transition: background-color 150ms ease, color 150ms ease;
+
+    svg {
+      width: 1.15rem;
+      height: 1.15rem;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.7;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex: 0 0 auto;
+    }
+
+    > span { min-width: 0; }
+    > small { margin-left: auto; color: #718197; font-size: 0.65rem; font-weight: 700; white-space: nowrap; }
+    &:hover { background: rgba(255, 255, 255, 0.055); color: white; }
+    &:focus-visible { outline: 2px solid #70a4d7; outline-offset: -3px; }
+    &--active { border-left-color: #6aa8ef; background: rgba(83, 143, 211, 0.14); color: white; }
+    &--disabled { color: #8997aa; cursor: default; }
+    &--disabled:hover { background: transparent; color: #8997aa; }
+  }
+
+  &__return {
+    margin: auto 1rem 0;
+    min-height: 2.8rem;
+    padding: 0.65rem 0.9rem;
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    color: #cbd6e4;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: border-color 150ms ease, background-color 150ms ease;
+
+    svg { width: 1.1rem; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    &:hover { border-color: rgba(168, 209, 255, 0.6); background: rgba(255, 255, 255, 0.05); }
+    &:focus-visible { outline: 2px solid #70a4d7; outline-offset: 2px; }
+  }
+}
+
+@media (max-width: 1050px) {
+  .admin-sidebar {
+    &__brand { justify-content: center; padding-inline: 0; }
+    &__brand-copy, &__section h2, &__link > span, &__link > small, &__return > span { display: none; }
+    &__link { justify-content: center; padding-inline: 0; }
+    &__return { justify-content: center; margin-inline: 0.7rem; padding-inline: 0; }
+  }
+}
+
+@media (max-width: 620px) {
+  .admin-sidebar {
+    position: static;
+    height: auto;
+    padding: 0.75rem 1rem;
+    overflow: visible;
+    flex-direction: row;
+    align-items: center;
+
+    &__brand { min-height: 0; padding: 0; border: 0; }
+    &__brand-mark { width: 2.35rem; height: 2.35rem; }
+    &__navigation { margin-left: auto; padding: 0; }
+    &__navigation > .admin-sidebar__link { width: 2.65rem; min-height: 2.65rem; padding: 0; border: 1px solid rgba(255, 255, 255, 0.13); }
+    &__section { display: none; }
+    &__section--authentication { margin: 0; display: block; }
+    &__section--authentication .admin-sidebar__link { width: 2.65rem; min-height: 2.65rem; padding: 0; border: 1px solid rgba(255, 255, 255, 0.13); }
+    &__return { width: 2.65rem; min-height: 2.65rem; margin: 0 0 0 0.5rem; }
+  }
+}
