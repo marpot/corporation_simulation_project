@@ -1,0 +1,35 @@
+@use '../../styles/variables' as *;
+
+$admin-sidebar-width: 17rem;
+$admin-sidebar-compact: 5.25rem;
+
+.admin-layout {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: $admin-sidebar-width minmax(0, 1fr);
+  background: #f1f4f8;
+
+  &__workspace { min-width: 0; }
+
+  &__content {
+    width: min(100%, 1360px);
+    margin: 0 auto;
+    padding: 2rem 2.25rem 3.5rem;
+  }
+}
+
+@media (max-width: 1050px) {
+  .admin-layout {
+    grid-template-columns: $admin-sidebar-compact minmax(0, 1fr);
+
+    &__content { padding: 1.75rem; }
+  }
+}
+
+@media (max-width: 620px) {
+  .admin-layout {
+    display: block;
+
+    &__content { padding: 1.25rem 1rem 2.5rem; }
+  }
+}
