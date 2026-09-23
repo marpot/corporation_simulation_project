@@ -1,6 +1,7 @@
 from app.schemas.auth import Token
 from app.schemas.department import DepartmentCreate, DepartmentRead, DepartmentUpdate
 from app.schemas.employee import EmployeeCreate, EmployeeRead, EmployeeUpdate
+from app.schemas.project import ProjectCreate, ProjectRead, ProjectUpdate
 from app.schemas.user import UserCreate, UserRead
 
 __all__ = [
@@ -10,6 +11,9 @@ __all__ = [
     "EmployeeCreate",
     "EmployeeRead",
     "EmployeeUpdate",
+    "ProjectCreate",
+    "ProjectRead",
+    "ProjectUpdate",
     "Token",
     "UserCreate",
     "UserRead",
