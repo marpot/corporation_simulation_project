@@ -1,6 +1,7 @@
 from enum import Enum as PythonEnum
 
 from sqlalchemy import Boolean, CheckConstraint, Column, Date, Enum, Integer, String, Text
+from sqlalchemy.orm import relationship
 
 from app.db.base import Base
 
@@ -29,3 +30,10 @@ class Project(Base):
     start_date = Column(Date, nullable=False)
     end_date = Column(Date, nullable=True)
     active = Column(Boolean, default=True, server_default="true", nullable=False)
+
+    assignments = relationship(
+        "Assignment",
+        back_populates="project",
+        cascade="all, delete-orphan",
+        passive_deletes=True,
+    )
