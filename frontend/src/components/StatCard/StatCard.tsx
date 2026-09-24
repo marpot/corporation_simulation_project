@@ -1,20 +1,20 @@
-import type { DashboardStatistic } from '@/types/domain'
 import { useLanguage } from '@/i18n/useLanguage'
 import './StatCard.scss'
 
 interface StatCardProps {
-  statistic: DashboardStatistic
+  label: string
+  value: number
+  detail: string
 }
 
-export function StatCard({ statistic }: StatCardProps) {
-  const { language, t } = useLanguage()
-  const copy = t.dashboard.metrics[statistic.id]
+export function StatCard({ label, value, detail }: StatCardProps) {
+  const { language } = useLanguage()
 
   return (
     <article className="stat-card">
-      <p>{copy.label}</p>
-      <strong>{statistic.value.toLocaleString(language)}{statistic.id === 'assigned' ? '%' : ''}</strong>
-      <span>{copy.detail}</span>
+      <p>{label}</p>
+      <strong>{value.toLocaleString(language)}</strong>
+      <span>{detail}</span>
     </article>
   )
 }
