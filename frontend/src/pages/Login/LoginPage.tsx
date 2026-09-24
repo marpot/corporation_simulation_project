@@ -37,7 +37,7 @@ export function LoginPage() {
     setIsSubmitting(true)
     try {
       await login(email.trim(), password)
-      navigate('/', { replace: true })
+      void navigate('/', { replace: true })
     } catch (error) {
       setLoginError(
         error instanceof AuthApiError && error.status === 401

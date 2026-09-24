@@ -24,7 +24,7 @@ export function Header() {
 
   function handleLogout() {
     logout()
-    navigate('/login', { replace: true })
+    void navigate('/login', { replace: true })
   }
 
   return (

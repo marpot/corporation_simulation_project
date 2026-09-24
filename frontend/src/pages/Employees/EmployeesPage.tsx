@@ -1,9 +1,8 @@
-import { type FormEvent, useCallback, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { type FormEvent, useEffect, useState } from 'react'
 import { useAuth } from '@/auth/useAuth'
+import { useUnauthorizedHandler } from '@/auth/useUnauthorizedHandler'
 import { useLanguage } from '@/i18n/useLanguage'
 import { formatMessage } from '@/i18n/translations'
-import { ApiError } from '@/services/api'
 import { getDepartments } from '@/services/departments'
 import {
   createEmployee,
@@ -42,8 +41,8 @@ function employeeInitials(employee: Employee) {
 }
 
 export function EmployeesPage() {
-  const navigate = useNavigate()
-  const { user, logout } = useAuth()
+  const { user } = useAuth()
+  const handleUnauthorized = useUnauthorizedHandler()
   const { t } = useLanguage()
   const [employees, setEmployees] = useState<Employee[]>([])
   const [isLoading, setIsLoading] = useState(true)
@@ -59,15 +58,6 @@ export function EmployeesPage() {
   const [isSaving, setIsSaving] = useState(false)
   const [deletingEmployeeId, setDeletingEmployeeId] = useState<number | null>(null)
   const canManageEmployees = user?.role === 'ADMIN' || user?.role === 'MANAGER'
-
-  const handleUnauthorized = useCallback((error: unknown) => {
-    if (error instanceof ApiError && error.status === 401) {
-      logout()
-      navigate('/login', { replace: true })
-      return true
-    }
-    return false
-  }, [logout, navigate])
 
   useEffect(() => {
     let isCurrent = true

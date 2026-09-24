@@ -1,6 +1,6 @@
-import { type FormEvent, useCallback, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { type FormEvent, useEffect, useState } from 'react'
 import { useAuth } from '@/auth/useAuth'
+import { useUnauthorizedHandler } from '@/auth/useUnauthorizedHandler'
 import { useLanguage } from '@/i18n/useLanguage'
 import { formatMessage } from '@/i18n/translations'
 import { ApiError } from '@/services/api'
@@ -33,8 +33,8 @@ interface Feedback {
 }
 
 export function SkillsPage() {
-  const navigate = useNavigate()
-  const { user, logout } = useAuth()
+  const { user } = useAuth()
+  const handleUnauthorized = useUnauthorizedHandler()
   const { t } = useLanguage()
   const canManage = user?.role === 'ADMIN' || user?.role === 'MANAGER'
 
@@ -71,15 +71,6 @@ export function SkillsPage() {
   const [projectSkillLevel, setProjectSkillLevel] = useState<SkillLevel>('BEGINNER')
   const [projectSkillSaving, setProjectSkillSaving] = useState(false)
   const [feedback, setFeedback] = useState<Feedback | null>(null)
-
-  const handleUnauthorized = useCallback((error: unknown) => {
-    if (error instanceof ApiError && error.status === 401) {
-      logout()
-      navigate('/login', { replace: true })
-      return true
-    }
-    return false
-  }, [logout, navigate])
 
   useEffect(() => {
     let current = true

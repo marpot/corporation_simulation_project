@@ -1,6 +1,6 @@
-import { type FormEvent, useCallback, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { type FormEvent, useEffect, useState } from 'react'
 import { useAuth } from '@/auth/useAuth'
+import { useUnauthorizedHandler } from '@/auth/useUnauthorizedHandler'
 import { useLanguage } from '@/i18n/useLanguage'
 import { formatDate, formatMessage } from '@/i18n/translations'
 import { ApiError } from '@/services/api'
@@ -33,8 +33,8 @@ function projectStatusClass(status: ProjectStatus) {
 }
 
 export function ProjectsPage() {
-  const navigate = useNavigate()
-  const { user, logout } = useAuth()
+  const { user } = useAuth()
+  const handleUnauthorized = useUnauthorizedHandler()
   const { language, t } = useLanguage()
   const [projects, setProjects] = useState<Project[]>([])
   const [isLoading, setIsLoading] = useState(true)
@@ -47,15 +47,6 @@ export function ProjectsPage() {
   const [isSaving, setIsSaving] = useState(false)
   const [deletingProjectId, setDeletingProjectId] = useState<number | null>(null)
   const canManageProjects = user?.role === 'ADMIN' || user?.role === 'MANAGER'
-
-  const handleUnauthorized = useCallback((error: unknown) => {
-    if (error instanceof ApiError && error.status === 401) {
-      logout()
-      navigate('/login', { replace: true })
-      return true
-    }
-    return false
-  }, [logout, navigate])
 
   useEffect(() => {
     let isCurrent = true
