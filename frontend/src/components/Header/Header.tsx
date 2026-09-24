@@ -4,7 +4,7 @@ import { LanguageSelector } from '@/components/LanguageSelector/LanguageSelector
 import { useLanguage } from '@/i18n/useLanguage'
 import './Header.scss'
 
-const pageTitleKeys: Record<string, 'dashboard' | 'employees' | 'departments' | 'projects' | 'assignments' | 'skills' | 'capacity'> = {
+const pageTitleKeys: Record<string, 'dashboard' | 'employees' | 'departments' | 'projects' | 'assignments' | 'skills' | 'capacity' | 'matching'> = {
   '/': 'dashboard',
   '/employees': 'employees',
   '/departments': 'departments',
@@ -12,6 +12,7 @@ const pageTitleKeys: Record<string, 'dashboard' | 'employees' | 'departments' | 
   '/assignments': 'assignments',
   '/skills': 'skills',
   '/capacity': 'capacity',
+  '/matching': 'matching',
 }
 
 export function Header() {

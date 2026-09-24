@@ -4,7 +4,7 @@ import { useLanguage } from '@/i18n/useLanguage'
 import './Sidebar.scss'
 
 interface NavigationItem {
-  labelKey: 'dashboard' | 'employees' | 'departments' | 'projects' | 'assignments' | 'skills' | 'capacity'
+  labelKey: 'dashboard' | 'employees' | 'departments' | 'projects' | 'assignments' | 'skills' | 'capacity' | 'matching'
   to: string
   icon: ReactNode
 }
@@ -17,6 +17,7 @@ const navigationItems: NavigationItem[] = [
   { labelKey: 'assignments', to: '/assignments', icon: <path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01" /> },
   { labelKey: 'skills', to: '/skills', icon: <path d="M12 2 4 6v6c0 5 3.5 8.5 8 10 4.5-1.5 8-5 8-10V6l-8-4ZM9 12l2 2 4-5" /> },
   { labelKey: 'capacity', to: '/capacity', icon: <path d="M4 19V9M10 19V5M16 19v-7M22 19V3M2 19h22" /> },
+  { labelKey: 'matching', to: '/matching', icon: <path d="M4 6h6M14 6h6M8 3l3 3-3 3M20 18h-6M10 18H4M16 15l-3 3 3 3M12 6v12" /> },
 ]
 
 export function Sidebar() {
