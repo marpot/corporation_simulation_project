@@ -27,6 +27,9 @@ const SkillsPage = lazy(() =>
 const CapacityPage = lazy(() =>
   import('@/pages/Capacity/CapacityPage').then((module) => ({ default: module.CapacityPage })),
 )
+const MatchingPage = lazy(() =>
+  import('@/pages/Matching/MatchingPage').then((module) => ({ default: module.MatchingPage })),
+)
 const LoginPage = lazy(() =>
   import('@/pages/Login/LoginPage').then((module) => ({ default: module.LoginPage })),
 )
@@ -69,6 +72,7 @@ function App() {
           <Route path="assignments" element={<AssignmentsPage />} />
           <Route path="skills" element={<SkillsPage />} />
           <Route path="capacity" element={<CapacityPage />} />
+          <Route path="matching" element={<MatchingPage />} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
