@@ -15,7 +15,6 @@ from app.db.session import get_db
 from app.main import app
 from app.models.user import User, UserRole
 
-
 TEST_JWT_SECRET = "test-only-secret-key-that-is-not-used-outside-tests"
 
 

@@ -10,7 +10,6 @@ from app.db.session import get_db
 from app.models.user import User, UserRole
 from app.schemas.user import UserCreate, UserPasswordUpdate, UserRead, UserUpdate
 
-
 router = APIRouter(prefix="/admin/users", tags=["admin-users"])
 admin_only = require_roles(UserRole.ADMIN)
 

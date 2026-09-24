@@ -1,0 +1,20 @@
+target-version = "py312"
+line-length = 100
+
+[lint]
+select = [
+    "E",      # pycodestyle errors
+    "F",      # Pyflakes - błędy, unused imports itd.
+    "I",      # importy
+    "UP",     # modernizacja składni Pythona
+    "B",      # flake8-bugbear - potencjalne bugi
+    "SIM",    # upraszczanie niepotrzebnie skomplikowanego kodu
+    "C4",     # comprehensions
+    "PIE",    # niepotrzebne / podejrzane konstrukcje
+    "RUF",    # własne reguły Ruff
+    "DTZ",    # datetime/timezone
+]
+
+ignore = [
+    "UP042",
+]

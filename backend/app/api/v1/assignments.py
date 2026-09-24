@@ -18,7 +18,6 @@ from app.schemas.assignment import (
     validate_assignment_date_range,
 )
 
-
 router = APIRouter(prefix="/assignments", tags=["assignments"])
 assignment_manager = require_roles(UserRole.ADMIN, UserRole.MANAGER)
 

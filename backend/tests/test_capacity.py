@@ -19,7 +19,6 @@ from app.models.user import User, UserRole
 from app.schemas.capacity import CapacityStatus
 from app.services.capacity import calculate_capacity
 
-
 TEST_JWT_SECRET = "test-only-secret-key-that-is-not-used-outside-tests"
 TARGET_DATE = date(2026, 10, 15)
 

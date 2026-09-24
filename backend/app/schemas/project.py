@@ -1,10 +1,15 @@
 from datetime import date
 from typing import Annotated, Any
 
-from pydantic import BaseModel, ConfigDict, StringConstraints, field_validator, model_validator
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    StringConstraints,
+    field_validator,
+    model_validator,
+)
 
 from app.models.project import ProjectStatus
-
 
 ProjectName = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1)]
 DATE_RANGE_ERROR = "end_date must be greater than or equal to start_date"

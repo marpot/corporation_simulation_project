@@ -10,7 +10,6 @@ from app.models.skill import Skill
 from app.models.user import User, UserRole
 from app.schemas.skill import SkillCreate, SkillRead, SkillUpdate
 
-
 router = APIRouter(prefix="/skills", tags=["skills"])
 skill_manager = require_roles(UserRole.ADMIN, UserRole.MANAGER)
 

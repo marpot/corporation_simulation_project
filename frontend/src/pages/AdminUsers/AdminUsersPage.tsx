@@ -1,6 +1,6 @@
-import { type FormEvent, useCallback, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { type FormEvent, useEffect, useState } from 'react'
 import { useAuth } from '@/auth/useAuth'
+import { useUnauthorizedHandler } from '@/auth/useUnauthorizedHandler'
 import { useLanguage } from '@/i18n/useLanguage'
 import { formatMessage } from '@/i18n/translations'
 import {
@@ -41,8 +41,8 @@ function accountInitials(email: string) {
 }
 
 export function AdminUsersPage() {
-  const navigate = useNavigate()
-  const { user: currentUser, logout } = useAuth()
+  const { user: currentUser } = useAuth()
+  const handleUnauthorized = useUnauthorizedHandler()
   const { t } = useLanguage()
   const [users, setUsers] = useState<AdminUser[]>([])
   const [isLoading, setIsLoading] = useState(true)
@@ -53,15 +53,6 @@ export function AdminUsersPage() {
   const [formError, setFormError] = useState<string | null>(null)
   const [feedback, setFeedback] = useState<string | null>(null)
   const [isSaving, setIsSaving] = useState(false)
-
-  const handleUnauthorized = useCallback((error: unknown) => {
-    if (error instanceof ApiError && error.status === 401) {
-      logout()
-      navigate('/login', { replace: true })
-      return true
-    }
-    return false
-  }, [logout, navigate])
 
   useEffect(() => {
     let isCurrent = true

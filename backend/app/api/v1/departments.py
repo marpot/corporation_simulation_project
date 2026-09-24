@@ -10,7 +10,6 @@ from app.models.department import Department
 from app.models.user import User, UserRole
 from app.schemas.department import DepartmentCreate, DepartmentRead, DepartmentUpdate
 
-
 router = APIRouter(prefix="/departments", tags=["departments"])
 department_manager = require_roles(UserRole.ADMIN, UserRole.MANAGER)
 

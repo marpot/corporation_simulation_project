@@ -1,6 +1,6 @@
-import { type FormEvent, useCallback, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { type FormEvent, useEffect, useState } from 'react'
 import { useAuth } from '@/auth/useAuth'
+import { useUnauthorizedHandler } from '@/auth/useUnauthorizedHandler'
 import { useLanguage } from '@/i18n/useLanguage'
 import { formatDate, formatMessage } from '@/i18n/translations'
 import {
@@ -9,7 +9,6 @@ import {
   getAssignments,
   updateAssignment,
 } from '@/services/assignments'
-import { ApiError } from '@/services/api'
 import { getEmployees } from '@/services/employees'
 import { getProjects } from '@/services/projects'
 import type { Assignment, AssignmentCreate } from '@/types/assignment'
@@ -34,8 +33,8 @@ const emptyForm: AssignmentFormValues = {
 }
 
 export function AssignmentsPage() {
-  const navigate = useNavigate()
-  const { user, logout } = useAuth()
+  const { user } = useAuth()
+  const handleUnauthorized = useUnauthorizedHandler()
   const { language, t } = useLanguage()
   const [assignments, setAssignments] = useState<Assignment[]>([])
   const [employees, setEmployees] = useState<Employee[]>([])
@@ -54,15 +53,6 @@ export function AssignmentsPage() {
   const [isSaving, setIsSaving] = useState(false)
   const [deletingAssignmentId, setDeletingAssignmentId] = useState<number | null>(null)
   const canManageAssignments = user?.role === 'ADMIN' || user?.role === 'MANAGER'
-
-  const handleUnauthorized = useCallback((error: unknown) => {
-    if (error instanceof ApiError && error.status === 401) {
-      logout()
-      navigate('/login', { replace: true })
-      return true
-    }
-    return false
-  }, [logout, navigate])
 
   useEffect(() => {
     let isCurrent = true

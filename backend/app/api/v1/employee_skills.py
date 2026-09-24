@@ -10,8 +10,11 @@ from app.models.employee import Employee
 from app.models.employee_skill import EmployeeSkill
 from app.models.skill import Skill
 from app.models.user import User, UserRole
-from app.schemas.skill import EmployeeSkillCreate, EmployeeSkillRead, EmployeeSkillUpdate
-
+from app.schemas.skill import (
+    EmployeeSkillCreate,
+    EmployeeSkillRead,
+    EmployeeSkillUpdate,
+)
 
 router = APIRouter(prefix="/employees/{employee_id}/skills", tags=["employee-skills"])
 skill_manager = require_roles(UserRole.ADMIN, UserRole.MANAGER)

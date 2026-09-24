@@ -1,6 +1,6 @@
-import { type FormEvent, useCallback, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { type FormEvent, useEffect, useState } from 'react'
 import { useAuth } from '@/auth/useAuth'
+import { useUnauthorizedHandler } from '@/auth/useUnauthorizedHandler'
 import { useLanguage } from '@/i18n/useLanguage'
 import { formatMessage } from '@/i18n/translations'
 import { ApiError } from '@/services/api'
@@ -26,8 +26,8 @@ const emptyForm: DepartmentFormValues = {
 }
 
 export function DepartmentsPage() {
-  const navigate = useNavigate()
-  const { user, logout } = useAuth()
+  const { user } = useAuth()
+  const handleUnauthorized = useUnauthorizedHandler()
   const { t } = useLanguage()
   const [departments, setDepartments] = useState<Department[]>([])
   const [isLoading, setIsLoading] = useState(true)
@@ -40,15 +40,6 @@ export function DepartmentsPage() {
   const [isSaving, setIsSaving] = useState(false)
   const [deletingDepartmentId, setDeletingDepartmentId] = useState<number | null>(null)
   const canManageDepartments = user?.role === 'ADMIN' || user?.role === 'MANAGER'
-
-  const handleUnauthorized = useCallback((error: unknown) => {
-    if (error instanceof ApiError && error.status === 401) {
-      logout()
-      navigate('/login', { replace: true })
-      return true
-    }
-    return false
-  }, [logout, navigate])
 
   useEffect(() => {
     let isCurrent = true

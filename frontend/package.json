@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "oxlint",
+    "lint": "oxlint --type-aware --deny-warnings",
     "test": "vitest run",
     "preview": "vite preview"
   },
@@ -23,8 +23,10 @@
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.7",
     "@vitejs/plugin-react": "^6.1.1",
+    "@vitest/coverage-v8": "^5.0.1",
     "jsdom": "^29.0.1",
     "oxlint": "^1.81.0",
+    "oxlint-tsgolint": "^7.0.2002",
     "sass": "^1.104.1",
     "typescript": "~6.0.2",
     "vite": "^8.3.0",

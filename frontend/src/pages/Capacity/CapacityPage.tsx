@@ -1,8 +1,6 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useAuth } from '@/auth/useAuth'
+import { useEffect, useMemo, useState } from 'react'
+import { useUnauthorizedHandler } from '@/auth/useUnauthorizedHandler'
 import { useLanguage } from '@/i18n/useLanguage'
-import { ApiError } from '@/services/api'
 import { getEmployeeCapacities } from '@/services/capacity'
 import type { CapacityStatus, EmployeeCapacity } from '@/types/capacity'
 import './CapacityPage.scss'
@@ -16,23 +14,13 @@ function todayAsLocalDate(): string {
 }
 
 export function CapacityPage() {
-  const navigate = useNavigate()
-  const { logout } = useAuth()
+  const handleUnauthorized = useUnauthorizedHandler()
   const { t } = useLanguage()
   const [selectedDate, setSelectedDate] = useState(todayAsLocalDate)
   const [capacities, setCapacities] = useState<EmployeeCapacity[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [loadError, setLoadError] = useState(false)
   const [reloadKey, setReloadKey] = useState(0)
-
-  const handleUnauthorized = useCallback((error: unknown) => {
-    if (error instanceof ApiError && error.status === 401) {
-      logout()
-      navigate('/login', { replace: true })
-      return true
-    }
-    return false
-  }, [logout, navigate])
 
   useEffect(() => {
     let isCurrent = true
