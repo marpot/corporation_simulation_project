@@ -1,6 +1,7 @@
+from datetime import date
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, HTTPException, Response, status
+from fastapi import APIRouter, Depends, HTTPException, Query, Response, status
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
@@ -8,6 +9,7 @@ from app.api.dependencies import get_current_user, require_roles
 from app.db.session import get_db
 from app.models.project import Project
 from app.models.user import User, UserRole
+from app.schemas.matching import EmployeeProjectMatchRead
 from app.schemas.project import (
     DATE_RANGE_ERROR,
     ProjectCreate,
@@ -15,6 +17,7 @@ from app.schemas.project import (
     ProjectUpdate,
     validate_project_date_range,
 )
+from app.services.matching import list_project_matches
 
 router = APIRouter(prefix="/projects", tags=["projects"])
 project_manager = require_roles(UserRole.ADMIN, UserRole.MANAGER)
@@ -58,6 +61,26 @@ def read_project(
     _current_user: Annotated[User, Depends(get_current_user)],
 ) -> Project:
     return get_project_or_404(db, project_id)
+
+
+@router.get("/{project_id}/matching", response_model=list[EmployeeProjectMatchRead])
+def read_project_matching(
+    project_id: int,
+    db: Annotated[Session, Depends(get_db)],
+    _current_user: Annotated[User, Depends(get_current_user)],
+    target_date: Annotated[date | None, Query(alias="date")] = None,
+) -> list[EmployeeProjectMatchRead]:
+    matches = list_project_matches(
+        db,
+        project_id,
+        target_date if target_date is not None else date.today(),  # noqa: DTZ011
+    )
+    if matches is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Project not found",
+        )
+    return matches
 
 
 @router.post("", response_model=ProjectRead, status_code=status.HTTP_201_CREATED)
