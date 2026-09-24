@@ -19,7 +19,6 @@ from app.models.project_skill import ProjectSkill
 from app.models.skill import Skill, SkillLevel
 from app.models.user import User, UserRole
 
-
 TEST_JWT_SECRET = "test-only-secret-key-that-is-not-used-outside-tests"
 
 
@@ -269,7 +268,12 @@ class SkillEndpointTests(unittest.TestCase):
         skill = self._create_skill()
         headers = self._headers(self.regular_user)
 
-        create_response = self.client.post("/api/v1/skills", json={"name": "React"}, headers=headers)
+        create_response = self.client.post(
+            "/api/v1/skills",
+            json={"name": "React"},
+            headers=headers,
+        )
+        
         update_response = self.client.patch(
             f"/api/v1/skills/{skill.id}", json={"name": "Python 3"}, headers=headers,
         )

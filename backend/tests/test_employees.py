@@ -14,7 +14,6 @@ from app.main import app
 from app.models.employee import Employee, Seniority
 from app.models.user import User, UserRole
 
-
 TEST_JWT_SECRET = "test-only-secret-key-that-is-not-used-outside-tests"
 
 

@@ -16,7 +16,6 @@ from app.schemas.project import (
     validate_project_date_range,
 )
 
-
 router = APIRouter(prefix="/projects", tags=["projects"])
 project_manager = require_roles(UserRole.ADMIN, UserRole.MANAGER)
 

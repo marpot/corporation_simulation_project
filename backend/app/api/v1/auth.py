@@ -11,7 +11,6 @@ from app.models.user import User
 from app.schemas.auth import Token
 from app.schemas.user import UserRead
 
-
 router = APIRouter(prefix="/auth", tags=["auth"])
 
 

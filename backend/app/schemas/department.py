@@ -2,7 +2,6 @@ from typing import Annotated, Any
 
 from pydantic import BaseModel, ConfigDict, StringConstraints, field_validator
 
-
 DepartmentName = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1)]
 
 

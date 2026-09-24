@@ -3,7 +3,6 @@ from typing import Annotated, Any
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
-
 PositiveId = Annotated[int, Field(gt=0)]
 AllocationPercent = Annotated[int, Field(ge=1, le=100)]
 DATE_RANGE_ERROR = "end_date must be greater than or equal to start_date"

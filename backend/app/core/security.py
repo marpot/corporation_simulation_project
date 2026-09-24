@@ -1,9 +1,8 @@
 import os
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 import jwt
 from pwdlib import PasswordHash
-
 
 password_hash = PasswordHash.recommended()
 JWT_ALGORITHM = "HS256"
@@ -28,7 +27,7 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
 def create_access_token(subject: str, expires_delta: timedelta | None = None) -> str:
     if expires_delta is None:
         expires_delta = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    expires_at = datetime.now(timezone.utc) + expires_delta
+    expires_at = datetime.now(UTC) + expires_delta
     payload = {"sub": subject, "exp": expires_at}
     return jwt.encode(payload, _get_jwt_secret_key(), algorithm=JWT_ALGORITHM)
 

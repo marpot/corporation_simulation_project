@@ -11,7 +11,6 @@ from app.models.employee import Employee
 from app.models.user import User, UserRole
 from app.schemas.employee import EmployeeCreate, EmployeeRead, EmployeeUpdate
 
-
 router = APIRouter(prefix="/employees", tags=["employees"])
 employee_manager = require_roles(UserRole.ADMIN, UserRole.MANAGER)
 

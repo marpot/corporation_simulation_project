@@ -10,13 +10,12 @@ from app.models.user import User
 from app.schemas.capacity import EmployeeCapacityRead
 from app.services.capacity import get_employee_capacity, list_employee_capacity
 
-
 router = APIRouter(prefix="/capacity", tags=["capacity"])
 TargetDate = Annotated[date | None, Query(alias="date")]
 
 
 def resolve_target_date(target_date: date | None) -> date:
-    return target_date if target_date is not None else date.today()
+    return target_date if target_date is not None else date.today() # noqa: DTZ011
 
 
 @router.get("/employees", response_model=list[EmployeeCapacityRead])

@@ -4,7 +4,6 @@ from pydantic import BaseModel, ConfigDict, Field, StringConstraints, field_vali
 
 from app.models.employee import Seniority
 
-
 NonEmptyText = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1)]
 PositiveId = Annotated[int, Field(gt=0)]
 PositiveCapacity = Annotated[int, Field(gt=0)]

@@ -1,6 +1,15 @@
 from enum import Enum as PythonEnum
 
-from sqlalchemy import Boolean, CheckConstraint, Column, Date, Enum, Integer, String, Text
+from sqlalchemy import (
+    Boolean,
+    CheckConstraint,
+    Column,
+    Date,
+    Enum,
+    Integer,
+    String,
+    Text,
+)
 from sqlalchemy.orm import relationship
 
 from app.db.base import Base

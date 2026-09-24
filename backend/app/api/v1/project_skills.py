@@ -12,7 +12,6 @@ from app.models.skill import Skill
 from app.models.user import User, UserRole
 from app.schemas.skill import ProjectSkillCreate, ProjectSkillRead, ProjectSkillUpdate
 
-
 router = APIRouter(prefix="/projects/{project_id}/skills", tags=["project-skills"])
 skill_manager = require_roles(UserRole.ADMIN, UserRole.MANAGER)
 
