@@ -4,10 +4,50 @@
 .dashboard-page {
   &__stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.75rem; }
   &__primary-grid { margin-top: 1rem; display: grid; grid-template-columns: minmax(0, 2.2fr) minmax(16rem, 0.8fr); gap: 1rem; }
-  &__secondary-grid { margin-top: 1rem; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(20rem, 0.85fr); gap: 1rem; }
-}
+  &__departments { margin-top: 1rem; }
 
-.data-as-of { color: $color-text-subtle; font-size: 0.75rem; }
+  &__state {
+    min-height: 16rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    color: $color-text-muted;
+    text-align: center;
+
+    strong { color: $color-heading; }
+    button {
+      min-height: 2.3rem;
+      margin-top: 0.25rem;
+      padding: 0.45rem 0.8rem;
+      border: 1px solid $color-primary-dark;
+      background: $color-primary-dark;
+      color: white;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+
+      &:hover { background: $color-primary; }
+      &:focus-visible { outline: 2px solid $color-primary; outline-offset: 2px; }
+    }
+  }
+
+  &__empty {
+    min-height: 8rem;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    color: $color-text-subtle;
+    text-align: center;
+
+    strong { color: $color-heading; font-size: 0.85rem; }
+    span { font-size: 0.75rem; }
+  }
+}
 
 .operations-panel {
   @include surface;
@@ -27,15 +67,6 @@
     p { margin: 0.2rem 0 0; color: $color-text-subtle; font-size: 0.75rem; }
     > span { color: $color-text-subtle; font-size: 0.75rem; }
   }
-}
-
-.table-progress {
-  min-width: 6rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  progress { @include progress-track; width: 4rem; }
-  span { color: $color-text-muted; font-size: 0.74rem; }
 }
 
 .allocation-list {
@@ -60,26 +91,32 @@
   small { color: $color-text-subtle; font-size: 0.7rem; }
 }
 
-.activity-list {
-  margin: 0;
-  padding: 0 1rem;
-  list-style: none;
-
-  li { padding: 0.85rem 0; display: grid; grid-template-columns: auto 1fr; gap: 0.75rem; border-bottom: 1px solid $color-border-soft; }
-  li:last-child { border-bottom: 0; }
-  li > div { display: grid; }
-  div > span { color: $color-text-subtle; font-size: 0.68rem; text-transform: uppercase; }
-  strong { margin-top: 0.15rem; color: $color-heading; font-size: 0.8rem; }
-  p { margin: 0.15rem 0 0; color: $color-text-muted; font-size: 0.74rem; }
-
-  &__marker { width: 0.45rem; height: 0.45rem; margin-top: 0.35rem; background: $color-primary; }
-  &__marker--people { background: $color-teal; }
-  &__marker--organization { background: $color-warning; }
-}
-
 @media (max-width: 1180px) {
   .dashboard-page {
     &__stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    &__primary-grid, &__secondary-grid { grid-template-columns: 1fr; }
+    &__primary-grid { grid-template-columns: 1fr; }
+  }
+}
+
+@media (max-width: 700px) {
+  .dashboard-page__stats { grid-template-columns: 1fr; }
+
+  .department-overview {
+    &__head { display: none; }
+    &__row {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      row-gap: 0.7rem;
+
+      > span:first-child { grid-column: 1 / -1; }
+      > span:not(:first-child) { display: grid; gap: 0.15rem; }
+      > span:not(:first-child)::before {
+        content: attr(data-label);
+        color: $color-text-subtle;
+        font-size: 0.65rem;
+        font-weight: 750;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+    }
   }
 }
