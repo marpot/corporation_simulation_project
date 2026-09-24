@@ -1,33 +1,6 @@
-import type { ReactNode } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { useLanguage } from '@/i18n/useLanguage'
 import './AdminSidebar.scss'
-
-type AdminNavigationKey = 'users' | 'employees' | 'departments' | 'projects'
-
-interface PlannedNavigationItem {
-  key: AdminNavigationKey
-  icon: ReactNode
-  to?: string
-}
-
-const sections: Array<{ key: 'authentication' | 'organization' | 'projectManagement'; items: PlannedNavigationItem[] }> = [
-  {
-    key: 'authentication',
-    items: [{ key: 'users', to: '/admin/users', icon: <><circle cx="12" cy="8" r="3.25" /><path d="M5.5 20v-1.5A6.5 6.5 0 0 1 12 12a6.5 6.5 0 0 1 6.5 6.5V20" /></> }],
-  },
-  {
-    key: 'organization',
-    items: [
-      { key: 'employees', icon: <><path d="M15.5 19.5v-1.25a4.75 4.75 0 0 0-4.75-4.75h-4A4.75 4.75 0 0 0 2 18.25v1.25" /><circle cx="8.75" cy="6.75" r="3.75" /><path d="M16 4.2a3.75 3.75 0 0 1 0 7.1M22 19.5v-1.25a4.75 4.75 0 0 0-3.6-4.61" /></> },
-      { key: 'departments', icon: <><path d="M3 21h18M5 21V7l7-4 7 4v14M9 10h1M14 10h1M9 14h1M14 14h1M10 21v-3h4v3" /></> },
-    ],
-  },
-  {
-    key: 'projectManagement',
-    items: [{ key: 'projects', icon: <><path d="M3 7h18v13H3zM8 7V4h8v3M3 12h18M10 12v2h4v-2" /></> }],
-  },
-]
 
 export function AdminSidebar() {
   const { t } = useLanguage()
@@ -52,27 +25,16 @@ export function AdminSidebar() {
           <span>{t.admin.overview}</span>
         </NavLink>
 
-        {sections.map((section) => (
-          <section className={`admin-sidebar__section admin-sidebar__section--${section.key}`} key={section.key} aria-labelledby={`admin-nav-${section.key}`}>
-            <h2 id={`admin-nav-${section.key}`}>{t.admin.sections[section.key]}</h2>
-            {section.items.map((item) => item.to ? (
-              <NavLink
-                className={({ isActive }) => `admin-sidebar__link${isActive ? ' admin-sidebar__link--active' : ''}`}
-                key={item.key}
-                to={item.to}
-              >
-                <svg viewBox="0 0 24 24" aria-hidden="true">{item.icon}</svg>
-                <span>{t.admin.modules[item.key].title}</span>
-              </NavLink>
-            ) : (
-              <div className="admin-sidebar__link admin-sidebar__link--disabled" key={item.key} aria-disabled="true">
-                <svg viewBox="0 0 24 24" aria-hidden="true">{item.icon}</svg>
-                <span>{t.admin.modules[item.key].title}</span>
-                <small>{t.admin.comingSoon}</small>
-              </div>
-            ))}
-          </section>
-        ))}
+        <section className="admin-sidebar__section" aria-labelledby="admin-nav-authentication">
+          <h2 id="admin-nav-authentication">{t.admin.sections.authentication}</h2>
+          <NavLink
+            className={({ isActive }) => `admin-sidebar__link${isActive ? ' admin-sidebar__link--active' : ''}`}
+            to="/admin/users"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.25" /><path d="M5.5 20v-1.5A6.5 6.5 0 0 1 12 12a6.5 6.5 0 0 1 6.5 6.5V20" /></svg>
+            <span>{t.admin.modules.users.title}</span>
+          </NavLink>
+        </section>
       </nav>
 
       <Link className="admin-sidebar__return" to="/">

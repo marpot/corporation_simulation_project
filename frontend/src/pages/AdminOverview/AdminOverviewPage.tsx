@@ -1,19 +1,7 @@
-import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '@/auth/useAuth'
 import { useLanguage } from '@/i18n/useLanguage'
 import './AdminOverviewPage.scss'
-
-type AdminModuleKey = 'users' | 'employees' | 'departments' | 'projects'
-
-const moduleIcons: Record<AdminModuleKey, ReactNode> = {
-  users: <><circle cx="12" cy="8" r="3.25" /><path d="M5.5 20v-1.5A6.5 6.5 0 0 1 12 12a6.5 6.5 0 0 1 6.5 6.5V20" /></>,
-  employees: <><path d="M15.5 19.5v-1.25a4.75 4.75 0 0 0-4.75-4.75h-4A4.75 4.75 0 0 0 2 18.25v1.25" /><circle cx="8.75" cy="6.75" r="3.75" /><path d="M16 4.2a3.75 3.75 0 0 1 0 7.1M22 19.5v-1.25a4.75 4.75 0 0 0-3.6-4.61" /></>,
-  departments: <><path d="M3 21h18M5 21V7l7-4 7 4v14M9 10h1M14 10h1M9 14h1M14 14h1M10 21v-3h4v3" /></>,
-  projects: <><path d="M3 7h18v13H3zM8 7V4h8v3M3 12h18M10 12v2h4v-2" /></>,
-}
-
-const moduleKeys = Object.keys(moduleIcons) as AdminModuleKey[]
 
 export function AdminOverviewPage() {
   const { user } = useAuth()
@@ -53,36 +41,23 @@ export function AdminOverviewPage() {
             <p>{t.admin.managementAreasEyebrow}</p>
             <h3 id="admin-modules-title">{t.admin.managementAreas}</h3>
           </div>
-          <span>{t.admin.plannedModules}</span>
         </div>
 
         <div className="admin-overview__module-grid">
-          {moduleKeys.map((key) => {
-            const cardContent = (
-              <>
-              <div className="admin-module-card__topline">
-                <span className="admin-module-card__icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24">{moduleIcons[key]}</svg>
-                </span>
-                <span className="admin-module-card__badge">{key === 'users' ? t.admin.available : t.admin.comingSoon}</span>
-              </div>
-              <h4>{t.admin.modules[key].title}</h4>
-              <p>{t.admin.modules[key].description}</p>
-              <div className="admin-module-card__footer" aria-hidden="true">
-                <span>{key === 'users' ? t.admin.openModule : t.admin.moduleUnavailable}</span>
-                <svg viewBox="0 0 24 24"><path d="m9 18 6-6-6-6" /></svg>
-              </div>
-              </>
-            )
-
-            return key === 'users' ? (
-              <Link className="admin-module-card admin-module-card--available" key={key} to="/admin/users">
-                {cardContent}
-              </Link>
-            ) : (
-              <article className="admin-module-card" key={key}>{cardContent}</article>
-            )
-          })}
+          <Link className="admin-module-card admin-module-card--available" to="/admin/users">
+            <div className="admin-module-card__topline">
+              <span className="admin-module-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.25" /><path d="M5.5 20v-1.5A6.5 6.5 0 0 1 12 12a6.5 6.5 0 0 1 6.5 6.5V20" /></svg>
+              </span>
+              <span className="admin-module-card__badge">{t.admin.available}</span>
+            </div>
+            <h4>{t.admin.modules.users.title}</h4>
+            <p>{t.admin.modules.users.description}</p>
+            <div className="admin-module-card__footer" aria-hidden="true">
+              <span>{t.admin.openModule}</span>
+              <svg viewBox="0 0 24 24"><path d="m9 18 6-6-6-6" /></svg>
+            </div>
+          </Link>
         </div>
       </section>
     </div>
