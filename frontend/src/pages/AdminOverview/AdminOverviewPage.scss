@@ -83,16 +83,11 @@
   &__section-heading {
     margin-bottom: 0.85rem;
     display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 1rem;
-
     p { margin: 0 0 0.15rem; color: $color-text-subtle; font-size: 0.69rem; font-weight: 800; letter-spacing: 0.09em; text-transform: uppercase; }
     h3 { margin: 0; color: $color-heading; font-size: 1.1rem; letter-spacing: -0.02em; }
-    > span { color: $color-text-subtle; font-size: 0.76rem; }
   }
 
-  &__module-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.85rem; }
+  &__module-grid { max-width: 22rem; display: grid; }
 }
 
 .admin-module-card {
@@ -137,10 +132,6 @@
   }
 }
 
-@media (max-width: 1180px) {
-  .admin-overview__module-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-
 @media (max-width: 760px) {
   .admin-overview {
     &__intro { align-items: flex-start; flex-direction: column; gap: 1rem; }
@@ -149,10 +140,7 @@
 }
 
 @media (max-width: 520px) {
-  .admin-overview {
-    &__module-grid { grid-template-columns: 1fr; }
-    &__section-heading > span { display: none; }
-  }
+  .admin-overview__module-grid { max-width: none; }
 
   .admin-module-card { min-height: 12.5rem; }
 }
