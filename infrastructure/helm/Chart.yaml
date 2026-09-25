@@ -1,0 +1,6 @@
+apiVersion: v2
+name: corporation-simulation
+description: Kubernetes deployment for the Corporation Resource Management portfolio application
+type: application
+version: 0.1.0
+appVersion: "1.0.0"

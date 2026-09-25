@@ -2,6 +2,7 @@
 .env
 .env.*
 !.env.example
+infrastructure/kubernetes/.env
 
 # Python
 __pycache__/
@@ -37,3 +38,14 @@ Thumbs.db
 *.log
 *.tmp
 *.swp
+
+# Terraform local state and provider cache
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json

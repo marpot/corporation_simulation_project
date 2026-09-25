@@ -1,19 +1,23 @@
 # Corporation Management Frontend
 
-Initial React, TypeScript, and Vite foundation for the Corporation Management System.
-
-## Local development
+React 19, TypeScript, Vite, and SCSS frontend for Corporation Resource
+Management. It uses the FastAPI `/api/v1` API, JWT authentication, role-aware
+navigation, English/Polish translations, the operational dashboard, resource
+planning pages, explainable matching, and the Admin Console.
 
 ```bash
-npm install
+npm ci
 npm run dev
 ```
 
-## Validation
+Validation:
 
 ```bash
-npm run build
+npm test -- --run
 npm run lint
+npm run typecheck
+npm run build
 ```
 
-The application currently uses typed mock data from `src/data/`. Future FastAPI communication belongs in `src/services/` once backend contracts are ready.
+The production Docker image serves the Vite build through nginx, provides SPA
+route fallback, and proxies `/api` to the configured backend host.
