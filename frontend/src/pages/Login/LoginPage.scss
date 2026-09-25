@@ -84,6 +84,57 @@
   }
 }
 
+.demo-account {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  border: 1px solid rgba($color-primary, 0.28);
+  background: $color-primary-soft;
+
+  &__heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+
+    h3 { margin: 0; color: $color-heading; font-size: 0.95rem; }
+    p { margin: 0.3rem 0 0; color: $color-text-muted; font-size: 0.78rem; line-height: 1.45; }
+  }
+
+  &__role {
+    flex: 0 0 auto;
+    padding: 0.25rem 0.45rem;
+    background: $color-primary-dark;
+    color: white;
+    font-size: 0.66rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+  }
+
+  &__credentials {
+    margin: 0.9rem 0;
+    display: grid;
+    gap: 0.5rem;
+
+    div { display: grid; grid-template-columns: 4.5rem 1fr; align-items: baseline; gap: 0.75rem; }
+    dt { color: $color-text-muted; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; }
+    dd { margin: 0; color: $color-heading; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 0.82rem; font-weight: 700; }
+  }
+
+  > button {
+    width: 100%;
+    min-height: 2.5rem;
+    border: 1px solid $color-primary;
+    background: white;
+    color: $color-primary-dark;
+    font-weight: 750;
+    cursor: pointer;
+
+    &:hover { background: $color-surface; border-color: $color-primary-dark; }
+    &:focus-visible { outline: 3px solid rgba($color-primary, 0.2); outline-offset: 2px; }
+    &:disabled { opacity: 0.65; cursor: wait; }
+  }
+}
+
 .form-field {
   margin-bottom: 1.15rem;
 

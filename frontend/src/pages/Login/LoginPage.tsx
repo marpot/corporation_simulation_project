@@ -11,6 +11,9 @@ interface LoginErrors {
   password?: boolean
 }
 
+const DEMO_EMAIL = 'demo@corporation.local'
+const DEMO_PASSWORD = 'Demo123!'
+
 export function LoginPage() {
   const navigate = useNavigate()
   const { login } = useAuth()
@@ -21,6 +24,13 @@ export function LoginPage() {
   const [errors, setErrors] = useState<LoginErrors>({})
   const [loginError, setLoginError] = useState<string | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
+
+  function useDemoAccount() {
+    setEmail(DEMO_EMAIL)
+    setPassword(DEMO_PASSWORD)
+    setErrors({})
+    setLoginError(null)
+  }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -74,6 +84,29 @@ export function LoginPage() {
             <h2 id="login-title">{t.login.signInTitle}</h2>
             <span>{t.login.instruction}</span>
           </div>
+
+          <section className="demo-account" aria-labelledby="demo-account-title">
+            <div className="demo-account__heading">
+              <div>
+                <h3 id="demo-account-title">{t.login.demoAccount}</h3>
+                <p>{t.login.demoDescription}</p>
+              </div>
+              <span className="demo-account__role">ADMIN</span>
+            </div>
+            <dl className="demo-account__credentials">
+              <div>
+                <dt>{t.login.demoEmail}</dt>
+                <dd>{DEMO_EMAIL}</dd>
+              </div>
+              <div>
+                <dt>{t.login.demoPassword}</dt>
+                <dd>{DEMO_PASSWORD}</dd>
+              </div>
+            </dl>
+            <button type="button" disabled={isSubmitting} onClick={useDemoAccount}>
+              {t.login.useDemoAccount}
+            </button>
+          </section>
 
           <div className="form-field">
             <label htmlFor="email">{t.login.email}</label>

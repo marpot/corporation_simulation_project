@@ -23,6 +23,8 @@ services:
         condition: service_healthy
       migrate:
         condition: service_completed_successfully
+      demo-admin:
+        condition: service_completed_successfully
     ports:
       - "${BACKEND_PORT:-8000}:8000"
     environment:
@@ -43,6 +45,16 @@ services:
       db:
         condition: service_healthy
     command: ["alembic", "upgrade", "head"]
+    environment:
+      DATABASE_URL: ${DATABASE_URL:?Set DATABASE_URL in .env}
+
+  demo-admin:
+    build:
+      context: ./backend
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    command: ["python", "-m", "scripts.create_admin", "--demo"]
     environment:
       DATABASE_URL: ${DATABASE_URL:?Set DATABASE_URL in .env}
 
