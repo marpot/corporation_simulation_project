@@ -1,261 +1,278 @@
 # Corporation Resource Management
 
-Full-stack resource allocation and project staffing application built with FastAPI, React, TypeScript and PostgreSQL.
+A full-stack portfolio application for planning people, skills, capacity, and
+project staffing. It models a small company’s real resource-allocation workflow
+without introducing unrelated platform complexity.
 
-The project models a practical company workflow: employees belong to departments, work on projects through time-bounded assignments, and have skills that can be compared with project requirements. The next application stages use this data to calculate capacity, detect over-allocation and provide explainable employee-to-project matching.
+## What the application does
 
-The project is also a portfolio environment for demonstrating backend development, frontend development, automated testing and a complete DevOps delivery path.
+- JWT authentication and role-based access for `ADMIN`, `MANAGER`, and
+  `EMPLOYEE` users
+- employee and department management, including department membership
+- project management and time-bounded employee assignments
+- allocation percentages, capacity calculation, and over-allocation detection
+- an employee skill catalog and project skill requirements
+- deterministic, explainable employee-to-project matching based on skills and
+  available capacity
+- an API-backed dashboard and a separate administration console
+- English and Polish frontend translations
 
-## Current Features
+## Architecture
 
-### Authentication and authorization
+```mermaid
+flowchart LR
+    Browser[React + TypeScript SPA] -->|HTTP /api| Web[nginx frontend]
+    Web -->|REST /api/v1| API[FastAPI backend]
+    API -->|SQLAlchemy| DB[(PostgreSQL)]
+    Migrations[Alembic migration job] --> DB
+    CI[GitHub Actions] --> Images[GHCR images]
+    Images --> K8s[Kubernetes / Helm]
+    K8s --> Web
+    K8s --> API
+    K8s --> DB
+```
 
-- JWT authentication
-- role-based access control
-- ADMIN, MANAGER and EMPLOYEE roles
-- protected frontend routes
-- dedicated administration console
-- admin user management
+The frontend uses relative `/api/v1` URLs. In containers, nginx serves the SPA,
+supports client-side route fallback, and proxies `/api` to the backend Service.
+The backend is synchronous FastAPI with SQLAlchemy and PostgreSQL. Alembic owns
+schema evolution.
 
-### Organization management
+## Technology
 
-- employee CRUD
-- department CRUD
-- employee-to-department assignment
-- active/inactive states
-- employee seniority and weekly capacity
+| Area | Stack |
+| --- | --- |
+| Backend | Python 3.12, FastAPI, SQLAlchemy, Pydantic, Alembic, PyJWT |
+| Frontend | React 19, TypeScript, Vite, React Router, SCSS |
+| Database | PostgreSQL 14 |
+| Testing | Pytest, Vitest, React Testing Library |
+| Quality | Ruff, Oxlint, TypeScript |
+| Delivery | Docker, Docker Compose, GitHub Actions, GHCR |
+| Infrastructure | Kubernetes, Helm, Terraform |
 
-### Project management
-
-- project CRUD
-- project status and date ranges
-- employee-to-project assignments
-- allocation percentage
-- assignment start/end dates
-- ongoing assignments
-
-### Skills
-
-- central skills catalog
-- employee skill levels
-- project skill requirements
-- shared proficiency levels: BEGINNER, INTERMEDIATE, ADVANCED and EXPERT
-- role-aware management UI
-- database constraints preventing duplicate employee/project skill associations
-
-### Frontend
-
-- React + TypeScript application
-- responsive SCSS interface
-- EN/PL translations
-- loading, error, empty and retry states
-- normal application and separate Admin Console
-- API-backed Employees, Departments, Projects, Assignments and Skills pages
-
-### Testing
-
-The project contains automated backend and frontend tests covering authentication, RBAC, CRUD operations, validation, relationships, assignments, skills and UI/service behavior.
-
-Current verified suites after the Skills implementation:
-
-- backend: 151 tests passing
-- frontend: 64 tests passing
-- frontend lint passing
-- production build/typecheck passing
-- Alembic schema check passing
-
-## Technology Stack
-
-### Backend
-
-- Python
-- FastAPI
-- SQLAlchemy
-- Pydantic
-- Alembic
-- PostgreSQL
-- PyJWT
-- Pytest
-
-### Frontend
-
-- React
-- TypeScript
-- Vite
-- SCSS
-- Vitest
-- React Testing Library
-
-### DevOps
-
-Currently used:
-
-- Docker
-- Docker Compose
-- GitHub Actions
-
-Planned before the project is considered complete:
-
-- Kubernetes
-- Helm
-- Terraform
-
-## Domain Model
-
-The main business relationships are:
-
-- a User provides authentication and an application role
-- an Employee may belong to a Department
-- an Employee may have multiple Skills with proficiency levels
-- a Project may require multiple Skills at minimum levels
-- an Assignment connects an Employee with a Project for a period and allocation percentage
-
-This model provides the data needed for the remaining resource-planning functionality without introducing additional domain modules.
-
-## API
-
-The backend exposes versioned REST endpoints under:
-
-`/api/v1`
-
-Main API areas:
-
-- `/auth`
-- `/admin/users`
-- `/employees`
-- `/departments`
-- `/projects`
-- `/assignments`
-- `/skills`
-- employee skills
-- project skill requirements
-
-Interactive FastAPI documentation is available locally at:
-
-`http://localhost:8000/docs`
-
-## Repository Structure
+## Repository layout
 
 ```text
 .
-├── backend/
-│   ├── alembic/          # Database migrations
-│   ├── app/
-│   │   ├── api/          # FastAPI endpoints
-│   │   ├── core/         # Security and configuration
-│   │   ├── db/           # Database setup
-│   │   ├── models/       # SQLAlchemy models
-│   │   ├── schemas/      # Pydantic schemas
-│   │   └── services/     # Business logic
-│   └── tests/
-├── frontend/             # React + TypeScript application
+├── backend/                  # FastAPI application, migrations, tests, admin bootstrap
+├── frontend/                 # React application and nginx production image
 ├── infrastructure/
-│   ├── kubernetes/
-│   └── helm/
-├── .github/workflows/
+│   ├── kubernetes/           # Plain Kubernetes resources
+│   ├── helm/                 # Parameterized application chart
+│   └── terraform/            # Helm-release IaC example
+├── .github/workflows/        # CI and image publishing
 └── docker-compose.yml
 ```
 
-## Local Development
+## Local development
 
-Create the environment file:
+Backend dependencies require Python 3.12. Frontend dependencies require a
+current Node.js release (CI uses Node.js 22).
 
 ```bash
 cp .env.example .env
+# Replace development placeholders in .env.
+
+cd backend
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+alembic upgrade head
+uvicorn app.main:app --reload
 ```
 
-Configure the required PostgreSQL and application settings in `.env`, then start the development environment:
+In a second terminal:
 
 ```bash
+cd frontend
+npm ci
+npm run dev
+```
+
+The Vite development server proxies `/api` to `http://localhost:8000`.
+FastAPI documentation is available at `http://localhost:8000/docs`.
+
+## Docker Compose
+
+```bash
+cp .env.example .env
+# Set a real database password and matching DATABASE_URL in .env.
 docker compose up --build
 ```
 
-Backend:
+Compose starts PostgreSQL, runs `alembic upgrade head`, starts FastAPI, and
+serves the frontend at `http://localhost:8080`. The backend remains available
+at `http://localhost:8000` for API development.
 
-`http://localhost:8000`
-
-Swagger UI:
-
-`http://localhost:8000/docs`
-
-Stop the environment with:
+Create the first administrator interactively after the database is ready:
 
 ```bash
-docker compose down
+docker compose exec backend python -m scripts.create_admin
 ```
 
-## Database Migrations
+Stop the stack with `docker compose down`. Add `--volumes` only when you
+intentionally want to delete local PostgreSQL data.
 
-Database schema changes are managed with Alembic.
+## Kubernetes demo
 
-From the `backend` directory:
+The plain manifests use the current namespace and expect three pre-created
+Secrets:
+
+- `postgres-secret`: `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_DB`, and a
+  matching URL-encoded `DATABASE_URL` whose host is `db`
+- `backend-secret`: `JWT_SECRET_KEY`
+- `ghcr-credentials`: a Docker registry pull Secret for private GHCR images
+
+Secret values and local `.env` files are not stored in Git.
+
+For the local kind demo, first confirm the protected context explicitly:
 
 ```bash
-alembic upgrade head
+kubectl config use-context kind-corporation-sim
+kubectl config current-context
 ```
 
-Migrations are versioned in the repository. Existing migrations are not edited when the schema evolves.
+Create local Secrets without adding values to YAML:
 
-## Development Status
+```bash
+kubectl create secret generic postgres-secret \
+  --from-env-file=infrastructure/kubernetes/.env
+kubectl create secret generic backend-secret \
+  --from-literal=JWT_SECRET_KEY="$(openssl rand -hex 32)"
+kubectl create secret docker-registry ghcr-credentials \
+  --docker-server=ghcr.io \
+  --docker-username="YOUR_GITHUB_USER" \
+  --docker-password="YOUR_GITHUB_TOKEN"
+```
 
-The core data-management part of the application is implemented.
+Deploy in dependency order:
 
-Completed:
+```bash
+kubectl apply -f infrastructure/kubernetes/postgres-pvc.yaml \
+  -f infrastructure/kubernetes/postgres-service.yaml \
+  -f infrastructure/kubernetes/postgres-deployment.yaml
+kubectl rollout status deployment/db
 
-- [x] Authentication and RBAC
-- [x] Employees
-- [x] Departments
-- [x] Employee-to-department relationship
-- [x] Projects
-- [x] Admin Console and user management
-- [x] Resource assignments
-- [x] Employee skills and project skill requirements
+kubectl delete job backend-migrations --ignore-not-found
+kubectl apply -f infrastructure/kubernetes/backend-migrations-job.yaml
+kubectl wait --for=condition=complete job/backend-migrations --timeout=180s
 
-Remaining scope:
+kubectl apply -f infrastructure/kubernetes/backend-service.yaml \
+  -f infrastructure/kubernetes/backend-deployment.yaml \
+  -f infrastructure/kubernetes/frontend-service.yaml \
+  -f infrastructure/kubernetes/frontend-deployment.yaml
+kubectl rollout status deployment/backend
+kubectl rollout status deployment/frontend
+```
 
-- [ ] Capacity calculation and over-allocation detection
-- [ ] Explainable employee-to-project matching
-- [ ] Replace dashboard mock data with real KPIs
-- [ ] Final backend/frontend quality pass
-- [ ] Finalize full-stack Docker setup and CI/CD
-- [ ] Kubernetes deployment
-- [ ] Helm packaging
-- [ ] Terraform infrastructure
-- [ ] Final README, architecture documentation and screenshots
+The Ingress manifest uses the host `corporation-sim.local` and class `nginx`.
+Apply it only when an nginx Ingress controller is installed:
 
-The scope is intentionally fixed. The project will not be expanded with unrelated modules before these remaining stages are completed.
+```bash
+kubectl apply -f infrastructure/kubernetes/ingress.yaml
+```
 
-## Matching Approach
+Without an Ingress controller, access the complete application through the
+frontend Service:
 
-Employee-to-project matching will be deterministic and explainable.
+```bash
+kubectl port-forward service/frontend 8080:80
+```
 
-The planned calculation will use data already present in the system:
+Then open `http://localhost:8080`. Create the first administrator with:
 
-- employee skills and proficiency
-- project skill requirements
-- employee assignments
-- available capacity
+```bash
+kubectl exec -it deployment/backend -- python -m scripts.create_admin
+```
 
-The goal is to make every recommendation understandable instead of hiding business rules behind an opaque score.
+PostgreSQL data is stored in the `postgres-data` PVC. The workloads include
+health probes and conservative resource requests and limits.
 
-## Project Completion Plan
+## Helm
 
-The remaining work is intentionally limited to seven stages:
+The chart at `infrastructure/helm` represents the same backend, frontend,
+PostgreSQL, persistence, migrations, probes, and optional Ingress setup.
+Meaningful values cover images, replicas, Services, resources, storage,
+Ingress, and existing Secret names.
 
-1. Capacity and over-allocation
-2. Explainable matching
-3. Real dashboard KPIs
-4. Code quality and final automated testing
-5. Docker and CI/CD finalization
-6. Kubernetes, Helm and Terraform
-7. Portfolio polish: documentation, architecture overview and screenshots
+```bash
+helm lint infrastructure/helm
+helm template portfolio infrastructure/helm
+helm upgrade --install portfolio infrastructure/helm \
+  --namespace corporation-sim --create-namespace --wait
+```
 
-After these stages, the project is considered complete.
+Create the required Secrets in the target namespace before installation. The
+chart never creates or embeds credentials. Its Alembic Job runs as a
+post-install/post-upgrade hook.
 
-## Purpose
+## Terraform example
 
-This is not intended to be a generic CRUD demo.
+`infrastructure/terraform` demonstrates Infrastructure as Code by managing the
+local Helm chart through an explicitly selected Kubernetes context. It creates
+no cloud resources and requires no cloud credentials.
 
-The project demonstrates how a business domain can evolve from relational modelling and REST APIs into a tested full-stack application and then into a containerized, orchestrated and reproducible deployment.
+```bash
+cd infrastructure/terraform
+terraform init -backend=false
+terraform fmt -check
+terraform validate
+terraform plan
+```
 
-The focus is on a clear domain, maintainable implementation, automated verification and a deliberately bounded project scope.
+The default context is fixed to `kind-corporation-sim`. No `terraform apply` is
+needed for repository validation. Existing Secret values stay outside
+Terraform state.
+
+## Tests and quality checks
+
+Run the backend checks from `backend/`:
+
+```bash
+python -m pytest
+ruff check app scripts tests
+DATABASE_URL=postgresql://... alembic upgrade head
+DATABASE_URL=postgresql://... alembic check
+```
+
+Run the frontend checks from `frontend/`:
+
+```bash
+npm test -- --run
+npm run lint
+npm run typecheck
+npm run build
+```
+
+Latest verified results for this repository state:
+
+- backend: 185 tests passed; Ruff passed
+- frontend: 108 tests passed across 18 files; Oxlint and TypeScript passed;
+  production build passed
+- Alembic: all migrations applied to PostgreSQL and schema check passed
+- Docker: backend and frontend images built; Compose configuration passed
+- Kubernetes: server-side manifest validation passed; frontend `200` and a
+  database-backed invalid-login `401` verified through the frontend Service
+- Helm: lint, template, install, and the same live HTTP path passed
+- Terraform: formatting check and validation passed
+
+## CI/CD
+
+GitHub Actions runs backend tests, Ruff, Alembic validation against an ephemeral
+PostgreSQL service, frontend tests, Oxlint, TypeScript, the production build,
+Docker Compose validation, Kubernetes client validation, Helm lint/template,
+and Terraform format/validation. Pull requests need no production credentials.
+
+On pushes to `main`, successful checks publish SHA and `latest` images to GHCR:
+
+- `ghcr.io/marpot/corporation_simulation_project`
+- `ghcr.io/marpot/corporation_simulation_project-frontend`
+
+## Security and secrets
+
+- `.env`, `.env.*`, Kubernetes local environment files, Terraform state, and
+  common credential/build artifacts are ignored.
+- committed manifests and Helm values contain only Secret references.
+- JWT and database credentials have no production defaults in Kubernetes.
+- GitHub Actions uses an ephemeral CI database credential and `GITHUB_TOKEN`
+  only for image publication on pushes.
+- no Kubernetes Secret values or Terraform state belong in version control.

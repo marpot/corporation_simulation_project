@@ -1,0 +1,64 @@
+imagePullSecrets:
+  - name: ghcr-credentials
+
+secrets:
+  database: postgres-secret
+  application: backend-secret
+
+backend:
+  replicas: 1
+  image:
+    repository: ghcr.io/marpot/corporation_simulation_project
+    tag: latest
+    pullPolicy: IfNotPresent
+  service:
+    name: backend
+    port: 8000
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+frontend:
+  replicas: 1
+  image:
+    repository: ghcr.io/marpot/corporation_simulation_project-frontend
+    tag: latest
+    pullPolicy: IfNotPresent
+  service:
+    name: frontend
+    port: 80
+  resources:
+    requests:
+      cpu: 25m
+      memory: 32Mi
+    limits:
+      cpu: 100m
+      memory: 128Mi
+
+postgresql:
+  image:
+    repository: postgres
+    tag: "14"
+    pullPolicy: IfNotPresent
+  service:
+    name: db
+    port: 5432
+  persistence:
+    size: 1Gi
+    storageClassName: ""
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+ingress:
+  enabled: false
+  className: nginx
+  host: corporation-sim.local
