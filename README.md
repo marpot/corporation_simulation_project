@@ -45,15 +45,45 @@ The login page displays these credentials and includes a **Use demo account** bu
 
 ## Architecture
 
-```mermaid
-flowchart LR
-    Browser[Browser] --> Web[nginx<br/>React + TypeScript SPA]
-    Web -->|REST /api/v1| API[FastAPI]
-    API --> ORM[SQLAlchemy]
-    ORM --> DB[(PostgreSQL 14)]
-    Migrations[Alembic migrations] --> DB
-    CI[GitHub Actions] --> Images[GHCR images]
-    Images --> Deploy[Kubernetes manifests<br/>or Helm chart]
+```text
+┌──────────────────────────────┐
+│           Browser            │
+└──────────────┬───────────────┘
+               │
+               ▼
+┌──────────────────────────────┐
+│ nginx                        │
+│ React + TypeScript SPA       │
+└──────────────┬───────────────┘
+               │ REST /api/v1
+               ▼
+┌──────────────────────────────┐
+│ FastAPI                      │
+└──────────────┬───────────────┘
+               │
+               ▼
+┌──────────────────────────────┐
+│ SQLAlchemy                   │
+└──────────────┬───────────────┘
+               │
+               ▼
+┌──────────────────────────────┐
+│ PostgreSQL 14                │◄──────── Alembic migrations
+└──────────────────────────────┘
+
+
+GitHub Actions
+      │
+      ▼
+  GHCR images
+      │
+      ├──────────────► Kubernetes manifests
+      │
+      └──────────────► Helm chart
+                           │
+                           ▼
+                    Terraform-managed
+                       Helm release
 ```
 
 The browser calls relative `/api/v1` URLs. In the production frontend image, nginx serves the compiled SPA, falls back to `index.html` for client-side routes, and proxies `/api` requests to FastAPI. SQLAlchemy owns database access, while Alembic migrations run as a separate deployment step before normal application use.
